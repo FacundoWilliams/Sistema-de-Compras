@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Presupuesto extends Model
 {
     use HasFactory;
-    protected $table="presupuesto";
+    protected $table="presupuestos";
     //Vinculo con la clave primaria de la tabla
     protected $primaryKey=('PresupuestoID');
     public $timestamps = false;//inhabilita los timestamps

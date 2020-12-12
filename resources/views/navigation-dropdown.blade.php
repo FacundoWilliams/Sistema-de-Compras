@@ -11,7 +11,7 @@
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                <div class="hidden space-x-8 sm:-my-px sm:ml-15 sm:flex">
                     <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
                     <!--"request()->routeIs('dashboard')"-->
                         {{ __('Menu Principal') }}
@@ -33,17 +33,19 @@
                         Gestion de Proveedores
                     </x-jet-nav-link>                                               
                     
-                    <x-jet-nav-link href="{{ route('informes') }}" :active="request()->routeIs('informes')">
+                    {{--<x-jet-nav-link href="{{ route('informes') }}" :active="request()->routeIs('informes')">
                         Listas e Informes
-                    </x-jet-nav-link>
+                    </x-jet-nav-link>--}}
 
                     <x-jet-nav-link href="{{ route('gestionUsuarios') }}" :active="request()->routeIs('gestionUsuarios')">
                         Gestion de Usuarios
                     </x-jet-nav-link>
 
+                    {{--
                     <x-jet-nav-link  href="{{ route('configuracion') }}" :active="request()->routeIs('configuracion')">
                         Configuracion del Sistema
                     </x-jet-nav-link>
+                    --}}
 
                 </div>
             </div>

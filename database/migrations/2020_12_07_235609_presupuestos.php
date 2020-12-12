@@ -16,10 +16,10 @@ class Presupuestos extends Migration
         schema::create('presupuestos', function(Blueprint $table){
             $table->id('PresupuestoID');
             $table->date('FechaRegistro');
-            $table->date('FechaValidez')->nullable();
-            $table->decimal('DescuentoTotal');
+            $table->date('FechaValidez');          
+	        $table->date('FechaEntregaEstimada');
             $table->decimal('Total');
-            $table->unsignedBiginteger('ProveID');
+            $table->unsignedBiginteger('ProveID');	     
             $table->unsignedBiginteger('SoliPresuID');
             $table->foreign('SoliPresuID')->references('SolicitudPresupuestoID')->on('solicitudes_presupuestos');
             $table->foreign('ProveID')->references('ProveedorID')->on('proveedores');
@@ -34,6 +34,6 @@ class Presupuestos extends Migration
      */
     public function down()
     {
-        //
+        schema::dropIfExists('presupuestos');
     }
 }

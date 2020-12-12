@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sector;
+use Sectores;
 
 class GestionSectoresController extends Controller
 {
@@ -19,4 +20,11 @@ class GestionSectoresController extends Controller
        //Se guardan los datos en la BD
        $sector->save();
     }
+
+    public function menu(){
+        $sectores = Sector::all();
+        return view('gestionUsuarios/sectores/menu')
+        ->with('sectores',$sectores);  
+    }
+
 }

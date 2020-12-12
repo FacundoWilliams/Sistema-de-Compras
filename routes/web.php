@@ -39,8 +39,11 @@ Route::put('/usuarios/{usuario}', [GestionUsuariosController::class, 'update'])-
 Route::get('/usuarios/consulta', UsuarioComponent::class)->name('usuario.consulta'); 
 
 //Personas--------------------------------------------------------------------------------------------------------------
-Route::get('/personas/alta', [GestionPersonasController::class, 'registro'])->name('persona.registro');
-Route::post('/personas',[GestionPersonasController::class,'store'])->name('persona.store');
+Route::get('/personas/menu', [GestionPersonasController::class, 'menu'])->name('personas.menu');
+Route::post('/personas/registro', [GestionPersonasController::class, 'store'])->name('persona.registro');
+Route::post('/persona',[GestionPersonasController::class,'store'])->name('persona.store');
+Route::put('/persona/editar',[GestionPersonasController::class, 'editar'])->name('persona.editar');
+
 
 //Permisos--------------------------------------------------------------------------------------------------------------
 Route::get('/permisos/alta',[GestionPermisosController::class,'registro'])->name('permiso.registro');
@@ -51,6 +54,7 @@ Route::get('/roles/alta',[GestionRolesController::class,'registro'])->name('rol.
 Route::post('/roles',[GestionRolesController::class,'store'])->name('rol.store');
 
 //Sectores----------------------------------------------------------------------------------------------------------
+Route::get('/sectores/menu',[GestionSectoresController::class,'menu'])->name('sector.menu');
 Route::get('/sectores/alta',[GestionSectoresController::class,'registro'])->name('sector.registro');
 Route::post('/sectores',[GestionSectoresController::class,'store'])->name('sector.store');
 

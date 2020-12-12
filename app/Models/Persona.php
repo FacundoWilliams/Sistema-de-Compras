@@ -10,4 +10,6 @@ class Persona extends Model
     use HasFactory;
     //le digo al modelo que tabla quiero que administre
     protected $table="personas";
+    protected $primaryKey = 'Legajo';
+
 }
