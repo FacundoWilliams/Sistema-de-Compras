@@ -6,6 +6,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Fortify\TwoFactorAuthenticatable;
 use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
@@ -33,6 +34,27 @@ class User extends Authenticatable
     ];
 
     /**
+<<<<<<< Updated upstream
+=======
+     * Método agregado para ejemplo permisos y roles
+     */
+    public function isAdminCompras() {
+        return $this->RolID == '1';
+    }
+
+    /**
+     * Método agregado para ejemplo permisos y roles
+     */
+    public function canAltaSC() {
+        
+        $permiso=DB::table('roles_permisos')
+        ->where('RolID',$this->RolID)->value('PermisoID'); 
+        return $permiso == 'Alta_SC';
+    }
+
+
+    /**
+>>>>>>> Stashed changes
      * The attributes that should be hidden for arrays.
      *
      * @var array
