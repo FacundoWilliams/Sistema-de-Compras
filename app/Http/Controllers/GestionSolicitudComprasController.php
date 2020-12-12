@@ -43,6 +43,10 @@ class GestionSolicitudComprasController extends Controller
     }
     
     public function registrarSolicitudCompra(Request $request){
+      
+      $this->authorize('create', Solicitud_Compras::class);
+
+
       //Se crea la Nueva Solicitud de Compra
       $sol=new Solicitud_Compras();
       $estadoSol= new Estado_Solicitud_Compras();

@@ -14,9 +14,10 @@ class Permisos extends Migration
     public function up()
     {
         schema::create('permisos', function(Blueprint $table){
-            $table->string('PermisoID')->primary('PermisoID');
+            $table->string('PermisoID',50)->primary('PermisoID');
             //$table->string('PermisoID')->unique();
-            $table->string('Descripcion',50);
+            $table->string('Descripcion');
+            $table->string('PathAuth');
             $table->timestamps();//crea 2 columnas creat_At update_at save hora y fecha de creacion y update
         });
     }

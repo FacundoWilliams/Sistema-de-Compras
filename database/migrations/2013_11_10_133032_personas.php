@@ -22,6 +22,7 @@ class Personas extends Migration
             $table->string('telefono',20);
             $table->string('Mail',256);
             $table->string('Direccion',50);
+            $table->integer('Activo')->default(1);
             $table->timestamps();//crea 2 columnas creat_At update_at save hora y fecha de creacion y update
         });
     }

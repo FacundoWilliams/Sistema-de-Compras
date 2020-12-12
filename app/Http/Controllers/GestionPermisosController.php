@@ -15,6 +15,7 @@ class GestionPermisosController extends Controller
        $permiso = new Permiso();
        $permiso->PermisoID =$request->permisoID;
        $permiso->descripcion=$request->descripcion;
+       $permiso->PathAuth=$request->permiso;
        //Se guardan los datos en la BD
        $permiso->save();
 

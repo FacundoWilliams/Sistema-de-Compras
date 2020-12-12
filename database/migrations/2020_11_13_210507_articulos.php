@@ -15,7 +15,7 @@ class Articulos extends Migration
     {
         schema::create('articulos', function(Blueprint $table){
             $table->id('ArticuloID');
-            $table->integer('Activo')->default(0);
+            $table->integer('Activo')->default(1);
             $table->string('Descripcion',50);
             $table->string('Tipo_embalaje',25);
             $table->string('Unidad_medida',20);

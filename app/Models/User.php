@@ -29,13 +29,10 @@ class User extends Authenticatable
         'email',
         'password',
         'Legajo',
-        'RolID',
         'Activo',
     ];
 
     /**
-<<<<<<< Updated upstream
-=======
      * Método agregado para ejemplo permisos y roles
      */
     public function isAdminCompras() {
@@ -47,14 +44,18 @@ class User extends Authenticatable
      */
     public function canAltaSC() {
         
-        $permiso=DB::table('roles_permisos')
-        ->where('RolID',$this->RolID)->value('PermisoID'); 
-        return $permiso == 'Alta_SC';
+        $path=DB::table('usuarios_roles')
+        ->join('roles_permisos','usuarios_roles.RolID','=','roles_permisos.RolID')
+        ->join('permisos','permisos.PermisoID','=','roles_permisos.PermisoID')
+        ->where('usuarios_roles.UsuarioID',$this->id)
+        ->where('permisos.PathAuth','/solicitudesCompras/Alta')
+        ->value('PathAuth');
+
+        return $path != null ; 
     }
 
 
     /**
->>>>>>> Stashed changes
      * The attributes that should be hidden for arrays.
      *
      * @var array

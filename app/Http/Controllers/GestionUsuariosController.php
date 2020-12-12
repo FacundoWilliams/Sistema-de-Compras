@@ -38,8 +38,7 @@ class GestionUsuariosController extends Controller
         $usuario->email = $request->email;
         $usuario->password = Hash::make($request['password']);
         $usuario->Legajo = $request->legajo;
-        $usuario->RolID = $request->rol;
-        $usuario->Activo = 1;
+        //$usuario->Activo = 1;
 
         //Se guardan los datos en la BD
         $usuario->save();

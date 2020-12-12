@@ -24,6 +24,15 @@
                 Descripción
             </label>
             <textarea name="descripcion" id="" cols="30" rows="10"></textarea>
+            <label>
+                Permiso
+                <select name="permiso" id="per" required>
+                    <option value="/solicitudesCompras/Alta"> Alta Solicitud Compra</option>
+                    <option value="/solicitudesCompras/Baja"> Baja Solicitud Compra</option>
+                    <option value="/solicitudesCompras/Modificacion"> Modificacion Solicitud Compra</option>
+                    <option value="/solicitudesCompras/Consulta"> Consulta Solicitud Compra</option>
+                </select>
+            </label>
             <button type="submit">Resgitrar Permiso</button>
         </form>
 </x-app-layout>

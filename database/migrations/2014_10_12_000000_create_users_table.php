@@ -25,9 +25,7 @@ class CreateUsersTable extends Migration
             $table->timestamps(); 
             $table->integer('Legajo');
             $table->foreign('Legajo')->references('Legajo')->on('personas');
-            $table->string('RolID');
-            $table->foreign('RolID')->references('RolID')->on('roles');
-            $table->integer('Activo')->default(0);
+            $table->integer('Activo')->default(1);
         });
     }
 

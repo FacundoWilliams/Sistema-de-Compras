@@ -19,7 +19,7 @@ class Sectores extends Migration
             $table->string('Descripcion',50);
             $table->Integer('Persona_a_cargo');
             $table->timestamps();//crea 2 columnas creat_At update_at save hora y fecha de creacion y update
-
+            $table->integer('Activo')->default(1);
             $table->foreign('Persona_a_cargo')->references('Legajo')->on('personas');
         });
     }

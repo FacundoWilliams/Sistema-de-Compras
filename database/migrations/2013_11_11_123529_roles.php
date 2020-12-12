@@ -14,7 +14,7 @@ class Roles extends Migration
     public function up()
     {
         schema::create('roles', function(Blueprint $table){
-            $table->string('RolID')->primary('RolID');
+            $table->string('RolID',50)->primary('RolID');
             //$table->string('RolID')->unique();
             $table->timestamps();//crea 2 columnas creat_At update_at save hora y fecha de creacion y update
         });
