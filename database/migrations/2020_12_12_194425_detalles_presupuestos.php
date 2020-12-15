@@ -19,8 +19,9 @@ class DetallesPresupuestos extends Migration
             $table->integer('Cantidad');
             $table->float('PrecioUnitario');
             $table->float('Descuento')->nullable();	          
-            $table->foreign('SoliPresuID')->references('PresupuestoID')->on('presupuestos');
+            $table->foreign('PresupuestoID')->references('PresupuestoID')->on('presupuestos');
             $table->foreign('ArticuloID')->references('ArticuloID')->on('articulos');
+            $table->primary(['ArticuloID','PresupuestoID']);
         });
     }
 

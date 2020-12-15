@@ -8,10 +8,7 @@
   <div class="row">  
     <div class="col-4">
       <a class="btn btn-danger" href="{{route('gestionCompras')}}" role="button">Atras</a>
-    </div>    
-    <div class="col-4"> 
-        <a class="btn btn-primary" href="{{route('compras.solicitudCompra.selecArticulos')}}" role="button">Alta de Solicitud de Compra</a>
-    </div> 
+    </div>   
   </div> 
   <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">     
     @if (session('success'))
@@ -30,12 +27,19 @@
       </button>
     </div>       
     @endif
+    <div class="row justify-content-center">
+      <div class="col-md-3"> 
+        <a class="btn btn-primary" href="{{route('compras.solicitudCompra.selecArticulos')}}" role="button">Alta de Solicitud de Compra</a>
+    </div> 
+    </div>
     <table id="example" class="table table-hover table-bordered" style="width:100%">
+        <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Solicitudes de Compras</caption>
           <thead>         
               <tr class="bg-blue-50">           
-                  <th class="text-center w-4" name="id">ID</th>                 
-                  <th class="text-center w-48" name="fecha">Fecha de Registro</th>                                 
-                  <th class="text-center w-16">Acciones</th>  
+                  <th class="text-center" style="width:5%">ID</th>                 
+                  <th class="text-center" style="width:15%">Fecha de Registro</th>                                 
+                  <th class="text-center" style="width:30%">Estado</th>
+                  <th class="text-center" style="width:20%">Acciones</th>  
               </tr>
           </thead>
           <tbody> 
@@ -46,12 +50,26 @@
                   <input id="id" name="id" type="hidden" value="{{$s->SolicitudCompraID}}">
                   <td class="text-center" name="id">{{$s->SolicitudCompraID}}</td>
                   <td class="text-center" name="fecha">{{$s->FechaRegistro}}</td>            
+                  @if ($s->AdminComprasID==NULL)
+                    <td class="text-center text-white">
+                      <div class="container bg-red-400  rounded">
+                        <strong> Pendiente por el Administrador de Compras</strong>
+                      </div>
+                    </td>  
+                  @else
+                    <td class="text-center text-white">
+                      <div class="container bg-green-400  rounded">
+                        <strong>Procesada por el Administrador de Compras</strong>
+                      </div>
+                
+                    </td>
+                  @endif
                   <td class="text-center">                 
                     <!-- Boton trigger modal eliminar -->
-                    <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal" data-target="#modalEliminar" data-id={{$s->SolicitudCompraID}}>
+                    <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#modalEliminar" data-id={{$s->SolicitudCompraID}}>
                       Eliminar
                     </button>     
-                    <button type="submit" class="btn btn-outline-success btn-sm">
+                    <button type="submit" class="btn btn-outline-dark btn-sm">
                       Ver detalle
                     </button>
                   </td>   

@@ -30,7 +30,7 @@ class GestionProveedoresController extends Controller
         //Se guardan los datos en la BD
         $proveedor->save();
         //Regresa a la vista de consultas
-        return redirect()->route('gestionProveedores.menu');
+        return redirect()->route('gestionProveedores.menu')->with('success','Proveedor registrado exitosamente');
     }
     
     /**
@@ -43,7 +43,7 @@ class GestionProveedoresController extends Controller
         //Se guardan los datos en la BD
         $proveedor->update();
         //Regresa a la vista de consultas
-        return redirect()->route('gestionProveedores.menu');
+        return redirect()->route('gestionProveedores.menu')->with('success','Proveedor eliminado exitosamente');
     }
 
      /**

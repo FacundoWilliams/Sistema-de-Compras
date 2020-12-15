@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-bold text-xl text-blue-800 leading-tight">
-        {{ __('Ingresar Cantidad de Aritculos Solicitados') }}
+        {{ __('Solicitud de Compra') }}
     </h2>
   </x-slot>
 
@@ -12,7 +12,6 @@
       </div>       
       <div class="col-sm-4 overflow-hidden shadow-md sm:rounded-lg bg-white">  
           <h3 class="text-center">Solicitud de Compra:</h3>
-          {{--<p class="text-center">ID {{$soli->SolicitudCompraID}}</p>--}}  
           <p class="text-center">Fecha: {{date("Y-n-j")}}</p> 
       </div> 
     </div> 
@@ -21,13 +20,13 @@
   <form id="frm-example" action="{{route('compras.solicitudCompra.registrarSolicitudCompra')}}" method="POST">
     @csrf 
   <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-4 p-3 bg-white">
-    <div class="d-flex justify-content-center mt-3"> 
-      <button type="submit" class="btn btn-primary">Aceptar</button>
+    <div class="d-flex justify-content-center"> 
+      <button type="submit" class="btn btn-primary mt-2">Aceptar</button>
     </div>  
-    <table id="example" class="table table-hover table-bordered" style="width:100%">
+    <table id="example" class="table table-hover table-bordered mt-2" style="width:100%">
+      <caption style="caption-side: top; text-align: center; font-style: italic;">Ingresar cantidad de artículos a solicitar</caption>
           <thead>         
-              <tr class="bg-blue-50">
-              <th></th>
+              <tr class="bg-blue-50">             
                   <th>ID</th>
                   <th>Descripción</th>
                   <th>Cantidad</th>
@@ -37,8 +36,8 @@
           <tbody>
             
             @foreach ($articulos as $a) 
-            <tr>
-                  <td><input type="hidden" name="ids[]" value="{{$a->ArticuloID}}" ></td>
+            <tr>                 
+                  <input type="hidden" name="ids[]" value="{{$a->ArticuloID}}" >
                   <td class="id">{{$a->ArticuloID}}</td>
                   <td>{{$a->Descripcion}}</td>
                   <td><input type="number" name="cantidades[] "></td>

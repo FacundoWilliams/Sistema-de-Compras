@@ -72,7 +72,8 @@ class GestionArticulosController extends Controller
       //Se guardan los datos en la BD
       $articulo->save();
       //Regresa a la vista de consultas
-      return redirect()->route('gestionArticulos.menu');    
+      return redirect()->route('gestionArticulos.menu')->with('success','Artículo registrado exitosamente');
+   
    }
 
    /**
@@ -93,15 +94,25 @@ class GestionArticulosController extends Controller
    }
 
    /**
-    * Función que elimina de manera lógica un articulo.
+    * Función que elimina de manera lógica un articulo siempre que el mismo no tenga proveedores vinculados,
+    * esta condición permite asegurar que no se eliminen artículos con proveedores vinculados lo cual es 
+    * condición necesaria para que se genere una solicitud de compra
     */
    public function eliminar(Request $request){        
-      $articulo = Articulo::find($request->id);
+      //$articulo = Articulo::find($request->id);
+      $articulo = DB::table('articulos')
+      ->join('articulo_proveedor','articulos.ArticuloID','=','articulo_proveedor.ArticuloID')
+      ->where('articulos.ArticuloID',$request->id)
+      ->where('articulos.Activo',1)
+      ->get();
+
+      return $articulo;
+
       $articulo->Activo=0;
       //Se guardan los datos en la BD
       $articulo->update();
       //Regresa a la vista de consultas
-      return redirect()->route('gestionArticulos.menu');
+      return redirect()->route('gestionArticulos.menu')->with('success','Artículo eliminado exitosamente');
    }
 
    /**

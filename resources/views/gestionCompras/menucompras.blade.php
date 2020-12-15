@@ -37,7 +37,7 @@
                     <div class="max-w-sm rounded overflow-hidden shadow-lg pb-10">                        
                         <img class="rounded mx-auto d-block mt-3 mb-5" src="/img/compra.png" alt="Orden de Compra" >
                         <div class="px-6 py-4">
-                        <a href="" class="btn btn-success  bg-gray-300 text-gray-600 font-bold px-2 py-1 rounded-lg  hover:bg-gray-500 hover:text-white">Orden de Compra</a>                         
+                        <a href="{{route('compras.ordenes')}}" class="btn btn-success  bg-gray-300 text-gray-600 font-bold px-2 py-1 rounded-lg  hover:bg-gray-500 hover:text-white">Orden de Compra</a>                         
                         </div>
                     </div>
                 </div>

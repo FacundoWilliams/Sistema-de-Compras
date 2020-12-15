@@ -10,8 +10,23 @@
           <!-- Boton trigger modal alta -->
           <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAlta">Alta de Proveedor</button>
         </div> 
-
         <div class="container-lg sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">
+            @if (session('success'))
+            <div class="alert alert-success" role="success">
+              <strong>{{ session('success') }}</strong>
+              <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>       
+          @endif
+          @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+              <strong>{{ session('error') }}</strong>
+              <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          @endif  
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
                     <tr class="bg-blue-50">           

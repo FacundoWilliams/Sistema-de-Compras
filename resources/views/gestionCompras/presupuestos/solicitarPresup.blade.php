@@ -47,8 +47,8 @@
                   <td class="text-center" name="">{{$a->FechaResposicionEstimada}}</td>  
                   <td>{{$a->ProveedorID}}</td>
                   <td class="text-center" name="">{{$a->Nombre}}</td>
-                  <!--<input type="hidden" name="proveedores[]" value="{{$a->ProveedorID}}" -->
-                  <!--<input type="hidden" name="cantidades[]" value="{{$a->Cantidad}}" >-->
+                  {{--<input type="hidden" name="proveedores[]" value="{{$a->ProveedorID}}" --}}
+                  {{--<input type="hidden" name="cantidades[]" value="{{$a->Cantidad}}" >--}}
               </tr>                                                 
           @endforeach                           
         </tbody>         

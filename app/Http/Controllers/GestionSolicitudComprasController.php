@@ -14,9 +14,11 @@ class GestionSolicitudComprasController extends Controller
 {
  
    public function index(){
-      $solicitudes = Solicitud_Compras::all();
+      $solicitudes = DB::table('solicitud_compras')
+      ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
+      ->get();
       return view('/gestionCompras/solicitudCompras/menu')
-      ->with('solicitudes' ,$solicitudes);      
+      ->with('solicitudes' ,$solicitudes);  
    } 
 
    /**
@@ -134,7 +136,7 @@ class GestionSolicitudComprasController extends Controller
    public function eliminar(Request $request){
       $estado = DB::table('estados_solicitud_compras')
       ->where('SolicitudCompraID',$request->id)
-      ->where('AdminComprasIDN',NULL)->value('EstadoID');
+      ->where('AdminComprasID',NULL)->value('EstadoID');
       if($estado == 'Pendiente')      
       {   
          //Se elimina de la tabla estados_solicitud_compras   

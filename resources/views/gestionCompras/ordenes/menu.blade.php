@@ -1,7 +1,7 @@
 <x-app-layout>
 <x-slot name="header">
   <h2 class="font-bold text-xl text-blue-800 leading-tight">
-      {{ __('Administración de Presupuestos') }}
+      {{ __('Administración de Òrdenes de Compras') }}
   </h2>
 </x-slot>
 <div class="container h-auto mx-auto mt-2">
@@ -11,43 +11,40 @@
     </div>    
   </div> 
   <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">     
+    @if (session('success'))
+    <div class="alert alert-success" role="success">
+      <strong>{{ session('success') }}</strong>
+      <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>       
+  @endif
       <table id="example" class="table table-hover table-bordered" style="width:100%">
-        <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Solicitudes de Compras</caption>
+        <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Órdenes de Compras</caption>
           <thead>         
               <tr class="bg-blue-50">           
                   <th class="text-center" style="width:5%">ID</th>                 
                   <th class="text-center" style="width:15%">Fecha de Registro</th>                                 
-                  <th class="text-center" style="width:30%">Estado</th>  
-                  <th class="text-center" style="width:20%">Presupuestos</th>              
+                  <th class="text-center" style="width:30%">Proveedor</th>  
+                  <th class="text-center" style="width:30%">Estado</th>             
+                  <th class="text-center" style="width:20%">Acciones</th>               
               </tr>
           </thead>
           <tbody> 
-          @foreach ($solicitudes as $s)            
+          @foreach ($ordenes as $o)            
               <tr>                             
-                  <input id="id" name="id" type="hidden" value="{{$s->SolicitudCompraID}}">
-                  <td class="text-center" name="id">{{$s->SolicitudCompraID}}</td>
-                  <td class="text-center" name="fecha">{{$s->FechaRegistro}}</td>            
-                    @if ($s->AdminComprasID==NULL)
-                      <td class="text-center text-white">
-                        <div class="container bg-red-400  rounded">
-                          <strong> No existen Solicitudes de Presupuestos</strong>
-                        </div>
-                      </td>  
-                    @else
-                        <td class="text-center text-white" name="estado">
-                          <div class="container bg-green-400  rounded">
-                            <strong>Existen Solicitudes de Presupuestos</strong>
-                          </div>
-                        </td>
-                    @endif
-                  <td class="text-center">                 
-                    <a href="{{route('compras.presupuestos.registrados', $s->SolicitudCompraID)}}" class="btn btn-outline-info btn-sm">Registrados</a>
-                    <a href="{{route('compras.presupuestos.solicitudes', $s->SolicitudCompraID)}}" class="btn btn-outline-dark btn-sm">Solicitados</a>    
-                  </td>                  
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="text-center">
+                  <a href="" class="btn btn-outline-info btn-sm">Evaluar</a>
+                  <a href="" class="btn btn-outline-dark btn-sm">Ver detalle</a>    
+                </td>                                                               
               </tr>                                                     
           @endforeach                           
         </tbody>         
-      </table>                      
+      </table>                    
   </div>   
 </div>
 </x-app-layout>

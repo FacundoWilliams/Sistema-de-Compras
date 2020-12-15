@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Presupuestos extends Migration
+class OrdenesCompras extends Migration
 {
     /**
      * Run the migrations.
@@ -13,18 +13,18 @@ class Presupuestos extends Migration
      */
     public function up()
     {
-        schema::create('presupuestos', function(Blueprint $table){
-            $table->id('PresupuestoID');
-            $table->unsignedBiginteger('NroPresupuesto');	
+        schema::create('ordenes_compras', function(Blueprint $table){
+            $table->id('OrdenCompraID');
             $table->date('FechaRegistro');
-            $table->date('FechaValidez');          
-	        $table->date('FechaEntregaEstimada');
             $table->decimal('Total');
             $table->unsignedBiginteger('ProveID');	     
-            $table->unsignedBiginteger('SoliPresuID');
-            $table->foreign('SoliPresuID')->references('SolicitudPresupuestoID')->on('solicitudes_presupuestos');
+            $table->unsignedBiginteger('PresuID');
+            $table->unsignedBiginteger('SoliCompraID');
             $table->foreign('ProveID')->references('ProveedorID')->on('proveedores');
-        });
+            $table->foreign('PresuID')->references('PresupuestoID')->on('presupuestos');
+            $table->foreign('SoliCompraID')->references('SolicitudCompraID')->on('solicitud_compras');
+
+        });   
     }
 
     /**
@@ -34,6 +34,6 @@ class Presupuestos extends Migration
      */
     public function down()
     {
-        schema::dropIfExists('presupuestos');
+        schema::dropIfExists('ordenes_compras');
     }
 }

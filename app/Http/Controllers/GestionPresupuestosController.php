@@ -2,19 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detalle_Presupuesto;
 use App\Models\Detalle_Solicitud_Presupuesto;
+use App\Models\Estado_Orden_Compra;
+use App\Models\Estado_Presupuestos;
 use Illuminate\Http\Request;
 use App\Models\Solicitud_Compras;
 use App\Models\Solicitud_Presupuesto;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Estado_Solicitud_Compras;
+use App\Models\Orden_Compra;
+use App\Models\Presupuesto;
 use App\Models\Solicitud_Presupuesto_Proveedor;
 
 class GestionPresupuestosController extends Controller
 {
     public function index(){
-      $solicitudes = Solicitud_Compras::all();
+      $solicitudes = DB::table('solicitud_compras')
+      ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
+      ->get();
       return view('/gestionCompras/presupuestos/menu')
       ->with('solicitudes' ,$solicitudes);  
     }
@@ -27,10 +34,18 @@ class GestionPresupuestosController extends Controller
       ->where('SolicitudCompraID',$solicitud)->value('EstadoID');
     
       $solpresupuestos = DB::table('solicitudes_presupuestos')
-      ->where('SolicitudCompraID',$solicitud)->get();
+      ->join('deta_soli_presu','deta_soli_presu.SoliPresuID',"=","SolicitudPresupuestoID")
+      ->join('proveedores','proveedores.ProveedorID','=','deta_soli_presu.ProveID')
+      ->leftJoin('presupuestos','presupuestos.SoliPresuID','=','solicitudes_presupuestos.SolicitudPresupuestoID')
+      ->where('SolicitudCompraID',$solicitud)     
+      ->get();
 
+      $unicos = $solpresupuestos->unique('SolicitudPresupuestoID');
+
+      //return $unicos;
+      
       return view('/gestionCompras/presupuestos/solicitudesPresupuesto')
-      ->with('solpresupuestos' ,$solpresupuestos)
+      ->with('solpresupuestos' ,$unicos)
       ->with('estado', $estado)
       ->with('solicitud', $solicitud)
       ->with('fecha', $fecha);
@@ -80,7 +95,7 @@ class GestionPresupuestosController extends Controller
       //aca va la alerta que indicara que no hay mas articulos a asolicitar
       return redirect()->route('compras.presupuestos');
     }
-//ordenamiento de los detalles por ID proveedore, guardandos sus correspondientes datos
+    //ordenamiento de los detalles por ID proveedore, guardandos sus correspondientes datos
      $proveedores=array();
      $id=array();
      $cantidades=array();
@@ -130,9 +145,9 @@ class GestionPresupuestosController extends Controller
       
       $sol_p_exist=DB::table('estados_solicitud_compras')
       ->where('SolicitudCompraID',$solicitud)
-      ->where('EstadoID','Procesado')->get();
-      
-      if($sol_p_exist== null){
+      ->where('EstadoID','Procesado')->value('SolicitudCompraID');
+         
+        if(empty($sol_p_exist)){
         $estadoSol= new Estado_Solicitud_Compras();
         //Creo nuevo estado para la Solicitud de Compras "Procesado"
         $estadoSol->SolicitudCompraID=$solicitud;
@@ -141,7 +156,7 @@ class GestionPresupuestosController extends Controller
         //Obtener ID del usuario actualmente logueado
         $estadoSol->ResponsableID=$sol[0]->ResponsableID;
         $estadoSol->AdminComprasID=$sol[0]->AdminComprasID;
-        //guardar nuevo estado procesado
+        //guardar nuevo estado procesado       
         $estadoSol->save();
       }
      
@@ -193,7 +208,7 @@ class GestionPresupuestosController extends Controller
     
     }
 
-    public function verDetalle($idSol){
+    public function detallePresuSolicitado($idSol){
       $sol = DB::table('solicitudes_presupuestos')
       ->join('users','solicitudes_presupuestos.AdminComprasID','=','users.id')
       ->where('SolicitudPresupuestoID',$idSol)->get();
@@ -207,4 +222,199 @@ class GestionPresupuestosController extends Controller
       ->with('solicitud',$sol[0])
       ->with('detalle',$detalle);
     }
+
+    /**
+     * Función que recupera los datos de detalle de un presupuesto registrado.
+     */
+    public function detallePresuRegistrado($idPresu){
+      //Se recuperan los datos del detalle del presupuesto registrado con el ID $idPresu
+      $presu = DB::table('presupuestos')
+      ->join('detalles_presupuestos','detalles_presupuestos.PresupuestoID','=','presupuestos.PresupuestoID')
+      ->join('articulos','articulos.ArticuloID','=','detalles_presupuestos.ArticuloID')
+      ->where('presupuestos.PresupuestoID',$idPresu)->get();
+
+      //Se calculan los subtotales del detalle para enviarlos a la vista
+      $subtotal = array();
+      $n = count($presu);
+      for($i=0; $i<$n; $i++){
+        $subtotal[$i] = $presu[$i]->Cantidad * $presu[$i]->PrecioUnitario;
+        if($presu[$i]->Descuento != 0)
+          $subtotal[$i] -=  ($subtotal[$i] * $subtotal[$i]->Descuento)/100;
+      }     
+
+      //Se recuperan los datos del proveedor del presupuesto registrado con el ID $idSol
+      $prove = DB::table('presupuestos')
+      ->join('proveedores','proveedores.ProveedorID','=','presupuestos.ProveID')
+      ->where('presupuestos.PresupuestoID',$idPresu)
+      ->get();
+
+      //Se recupera el dato de la Solicitud de Compra relacionada con el presupuesto para retornar a la vista correspondiente
+      $idSol = DB::table('presupuestos')
+      ->join('solicitudes_presupuestos','solicitudes_presupuestos.SolicitudPresupuestoID','=','presupuestos.SoliPresuID')
+      ->where('presupuestos.PresupuestoID',$idPresu)
+      ->value('SolicitudCompraID');
+
+      return view('/gestionCompras/presupuestos/detallePresupuesto')
+      ->with('prove',$prove)
+      ->with('detalle',$presu)
+      ->with('idSol',$idSol)
+      ->with('subtotal',$subtotal);
+    }
+
+    public function altaPresupuesto($idSol){
+      $detalle = DB::table('deta_soli_presu')
+      ->join('proveedores','proveedores.ProveedorID','=','deta_soli_presu.ProveID')
+      ->join('articulos','articulos.ArticuloID','=','deta_soli_presu.ArtiID')
+      ->where('deta_soli_presu.SoliPresuID',$idSol)->get();           
+      $solCompra = DB::table('solicitudes_presupuestos')
+      ->where('solicitudes_presupuestos.SolicitudPresupuestoID',$idSol)
+      ->value('SolicitudCompraID');
+      return view('/gestionCompras/presupuestos/alta')
+      ->with('detalle',$detalle)
+      ->with('solCompra',$solCompra);
+    }
+
+    public function registrarPresupuesto(Request $request, $idSol){
+      //return $request;
+      //Se crea el presupuesto en la BD 
+      $presupuesto = new Presupuesto();
+      $presupuesto->NroPresupuesto=$request->presuNro;
+      $presupuesto->FechaRegistro=date("Y-n-j");
+      $presupuesto->FechaValidez=$request->fechaVal;
+      $presupuesto->FechaEntregaEstimada=$request->fechaVal;
+      $presupuesto->ProveID=$request->proveID;
+      $presupuesto->SoliPresuID=$idSol;     
+      $n=count($request->cantidad);
+      $subtotal = 0;
+      for ($i=0; $i < $n ; $i++){
+          $subtotal += $request->cantidad[$i] * $request->precioUni[$i];
+        if($request->descuento[$i] != 0)
+          $subtotal -=  ($subtotal * $request->descuento[$i])/100;
+      }
+      $presupuesto->Total = $subtotal;
+      $presupuesto->save();
+
+      //Se crea el estado del presupuesto en la BD
+      $estado_presupuesto = new Estado_Presupuestos();
+      $estado_presupuesto->EstadoID = 'Pendiente';
+      $estado_presupuesto->PresupuestoID = DB::table('presupuestos')->max('PresupuestoID');
+      $estado_presupuesto->AdminComprasID=Auth::id();
+      $estado_presupuesto->FechaHora=date("Y-n-j");
+      $estado_presupuesto->save();
+
+      $solCompra = DB::table('solicitudes_presupuestos')
+      ->where('solicitudes_presupuestos.SolicitudPresupuestoID',$idSol)
+      ->value('SolicitudCompraID');
+
+      //Se crea el detalle del presupuesto en la BD para cada artículo
+      $articulos=count($request->artID);
+      for ($i=0; $i < $articulos ; $i++){
+        $detalle_presupuesto = new Detalle_Presupuesto();
+        $detalle_presupuesto->PresupuestoID = DB::table('presupuestos')->max('PresupuestoID');
+        $detalle_presupuesto->ArticuloID = $request->artID[$i];
+        $detalle_presupuesto->Cantidad = $request->cantidad[$i];
+        $detalle_presupuesto->PrecioUnitario = $request->precioUni[$i];
+        $detalle_presupuesto->Descuento = $request->descuento[$i];
+        $detalle_presupuesto->save();
+      }
+      //return redirect()->route('compras.presupuestos.solicitudes',$solCompra)->with('success','Presupuesto registrado exitosamente.');
+      //Se retorna a la vista de presupuestos registrados
+      return redirect()->route('compras.presupuestos.registrados',$solCompra)->with('success','Presupuesto registrado exitosamente.');
+
+    }
+
+    /**
+     * Función que recible el ID de una solicitud de Compra, recupera los presupuestos registrados vinculados con
+     * esa solicitud de compra y retorna la información a la vista correspondiente
+     */
+    public function presupuestosRegistrados($idSol){
+      //Se recuperan todos los presupuestos registrados en respuesta a cada solicitud de presupuestos asociados con esta solicitud de compra
+      $presu_regi = DB::table('solicitudes_presupuestos')
+      ->join('presupuestos','presupuestos.SoliPresuID','=','solicitudes_presupuestos.SolicitudPresupuestoID')
+      ->join('proveedores','proveedores.ProveedorID','=','presupuestos.ProveID')
+      ->where('solicitudes_presupuestos.SolicitudCompraID',$idSol)
+      ->get();
+
+      //Se recupera la Solicitud de Compra con los datos del usuario que la creo para retornar a la vista y visualizar información detallada
+      $solCompra = DB::table('solicitud_compras')
+      ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
+      ->join('users','users.id','=','estados_solicitud_compras.ResponsableID')
+      ->where('solicitud_compras.SolicitudCompraID',$idSol)
+      ->get();
+
+      //return $presu_regi;
+      //Se retorna a la vista con los datos recuperados
+      return view('/gestionCompras/presupuestos/presupuestosRegistrados')
+      ->with('presu_regi',$presu_regi)
+      ->with('solCompra',$solCompra);
+    }
+
+    /**
+     * Función que recupera los datos de detalle de un presupuesto registrado y los retorna a la vista correspondiente
+     * para la posterior seleccion.
+     */
+    public function seleccionPresuRegistrado($idPresu){
+      //Se recuperan los datos del detalle del presupuesto registrado con el ID $idPresu
+      $presu = DB::table('presupuestos')
+      ->join('detalles_presupuestos','detalles_presupuestos.PresupuestoID','=','presupuestos.PresupuestoID')
+      ->join('articulos','articulos.ArticuloID','=','detalles_presupuestos.ArticuloID')
+      ->where('presupuestos.PresupuestoID',$idPresu)->get();
+      
+      //Se recuperan los datos del proveedor del presupuesto registrado con el ID $idPresu
+      $prove = DB::table('presupuestos')
+      ->join('proveedores','proveedores.ProveedorID','=','presupuestos.ProveID')
+      ->where('presupuestos.PresupuestoID',$idPresu)
+      ->get();
+
+      //Se calculan los subtotales del detalle para enviarlos a la vista
+      $subtotal = array();
+      $n = count($presu);
+      for($i=0; $i<$n; $i++){
+        $subtotal[$i] = $presu[$i]->Cantidad * $presu[$i]->PrecioUnitario;
+        if($presu[$i]->Descuento != 0)
+          $subtotal[$i] -=  ($subtotal[$i] * $subtotal[$i]->Descuento)/100;
+      }     
+
+      return view('/gestionCompras/presupuestos/seleccionPresupuesto')
+      ->with('prove',$prove)
+      ->with('detalle',$presu)
+      ->with('idPresu',$idPresu)
+      ->with('subtotal',$subtotal);
+    }
+
+
+    /**
+     * Función que recibe el detalle seleccionado de un presupuesto registrado, crea la orden de compra y su correspondiente 
+     * detalle.
+     */
+    public function seleccionarDetallePresupuestoRegistrado(Request $request){
+      //Se controla que si no se seleccionaron articulos, no se debe crear una orden de compra, se debe alertar al usuario y retornar a la vista actual
+      if($request->id == NULL)
+        return redirect()->route('compras.presupuestosRegistrados.seleccionPresuRegistrado',$request->presupuesto)->with('error','No se seleccionaron artículos para comprar.');
+      
+      //Se recupera el ID de la solicitud de compra vinculado con el presupesto registrado
+      $solCompra = DB::table('solicitudes_presupuestos')
+      ->where('SolicitudPresupuestoID',$request->SoliPresuID)
+      ->value('SolicitudCompraID');
+
+      //Se crea la orden de compra
+      $orden_compra = new Orden_Compra();
+      $orden_compra->FechaRegistro = date("Y-n-j");      
+      $orden_compra->Total = $request->Total;
+      $orden_compra->ProveID = $request->ProveedorID;
+      $orden_compra->PresuID = $request->PresupuestoID;
+      $orden_compra->SoliCompraID = $solCompra;
+      $orden_compra->save();
+
+      //Se crea el estado de la orden de compra
+      $estado_orden_compra = new Estado_Orden_Compra();
+      $estado_orden_compra->EstadoID = 'Pendiente';
+
+      //Se crea el detalle de la orden de compra
+
+
+      //Se retorna a la vista de presupuestos registrados alertando con un mensaje de exito.
+      return redirect()->route('compras.ordenes')->with('success','Se ha creado una orden de compra.');
+    }
+
 }

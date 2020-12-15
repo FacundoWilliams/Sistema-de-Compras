@@ -2,18 +2,18 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PageController;
+use App\Http\Livewire\UsuarioComponent;
 use App\Http\Controllers\GestionUsuariosController;
 use App\Http\Controllers\GestionPersonasController;
 use App\Http\Controllers\GestionPermisosController;
 use App\Http\Controllers\GestionSectoresController;
 use App\Http\Controllers\GestionRolesController;
 use App\Http\Controllers\GestionArticulosController;
+use App\Http\Controllers\GestionOrdenesCompraController;
 use App\Http\Controllers\GestionProveedoresController;
 use App\Http\Controllers\GestionSolicitudComprasController;
-use App\Http\Livewire\UsuarioComponent;
 use App\Http\Controllers\GestionPresupuestosController;
 use App\Http\Controllers\PDFController;
-use App\Http\Livewire\SolicitudComprasComponent;
 
 Route::get('/', function () {
     return view('/auth/login');
@@ -93,7 +93,7 @@ Route::get('/gestionInventario/verificarInventario', [GestionArticulosController
 //Route::get('/gestionInventario/{path}/verificarInventario', [GestionArticulosController::class, 'direccionar'])->name('gestionInventario.verificarInventario');
 
 
-//Gestion de Compras-----------------------------------------------------------------------------------------
+//Administración de Solicitudes Compras-----------------------------------------------------------------------------------------
 Route::get('/gestionCompras/solicitudesCompras',[GestionSolicitudComprasController::class,'index'] )->name('compras.solicitudCompras');
 Route::get('/gestionCompras/solicitudesCompras/alta_sel_art', [GestionSolicitudComprasController::class,'seleccionarArticulos'])->name('compras.solicitudCompra.selecArticulos');
 Route::post('/gestionCompras/solicitudesCompras/alta_cant_art', [GestionSolicitudComprasController::class,'cantidadArticulos'])->name('compras.solicitudCompra.cantArticulos');
@@ -102,12 +102,26 @@ Route::post('/gestionCompras/solicitudesCompras/detalle', [GestionSolicitudCompr
 Route::post('/gestionCompras/solicitudesCompras/eliminar', [GestionSolicitudComprasController::class,'eliminar'])->name('compras.solicitudCompra.eliminar');
 Route::get('/gestionCompras/solicitudesCompras/{solicitud}/editarSolicitud', [GestionSolicitudComprasController::class,'editarSolicitudCompra'])->name('compras.solicitudCompra.editar');
 Route::put('/gestionCompras/solicitudesCompras/{solicitud}/actualizarSolicitud', [GestionSolicitudComprasController::class,'actualizar'])->name('compras.solicitudCompra.actualizar');
-//Gestion de Presupuestos---------------------------------------------------------------------------------------
+
+
+
+//Administración de Presupuestos---------------------------------------------------------------------------------------
 Route::get('/gestionCompras/presupuestos',[GestionPresupuestosController::class,'index'] )->name('compras.presupuestos');
-Route::get('/gestionCompras/presupuestos/{solicitud}/solicitudes',[GestionPresupuestosController::class,'solicitudesPresupuesto'] )->name('compras.presupuestos.solicitudes');
-Route::get('/gestionCompras/presupuestos/{solicitud}/solicitar',[GestionPresupuestosController::class,'solicitarPresupuesto'] )->name('compras.presupuestos.solicitar');
-Route::get('/gestionCompras/presupuestos/{solicitud}/verDetalle',[GestionPresupuestosController::class,'verDetalle'] )->name('compras.presupuestos.verDetalle');
+Route::get('/gestionCompras/presupuestos/solicitudCompraNro/{solicitud}',[GestionPresupuestosController::class,'solicitudesPresupuesto'] )->name('compras.presupuestos.solicitudes');
+Route::get('/gestionCompras/presupuestos/solicitudCompraNro/{solicitud}/registrados',[GestionPresupuestosController::class,'presupuestosRegistrados'] )->name('compras.presupuestos.registrados');
+Route::get('/gestionCompras/presupuestos/solicitudCompraNro/{solicitud}/solicitarPresupuesto',[GestionPresupuestosController::class,'solicitarPresupuesto'] )->name('compras.presupuestos.solicitar');
+Route::get('/gestionCompras/presupuestos/presupuestoNro/{solicitud}/detalle',[GestionPresupuestosController::class,'detallePresuRegistrado'] )->name('compras.presupuestosRegistrados.verDetalle');
+Route::get('/gestionCompras/presupuestos/solicitudNro/{solicitud}/detalle',[GestionPresupuestosController::class,'detallePresuSolicitado'] )->name('compras.presupuestoSolicitado.verDetalle');
+Route::get('/gestionCompras/presupuestos/solicitudNro/{solicitud}/altaPresupuesto',[GestionPresupuestosController::class,'altaPresupuesto'] )->name('compras.presupuestos.alta');
+Route::get('/gestionCompras/presupuestos/presupuestoNro/{solicitud}/seleccion',[GestionPresupuestosController::class,'seleccionPresuRegistrado'] )->name('compras.presupuestosRegistrados.seleccionPresuRegistrado');
 Route::post('/gestionCompras/presupuestos/{solicitud}/registrarSolicitud',[GestionPresupuestosController::class,'registrarSolicitud'] )->name('compras.presupuestos.registrarSolicitud');
+Route::post('/gestionCompras/presupuestos/{solicitud}/registrarPresupuesto',[GestionPresupuestosController::class,'registrarPresupuesto'] )->name('compras.presupuestos.registrarPresupuesto');
+Route::post('/gestionCompras/presupuestos/registrarPresupuesto',[GestionPresupuestosController::class,'seleccionarDetallePresupuestoRegistrado'] )->name('compras.presupuestosRegistrados.seleccionDetalle');
+
+
+//Administración de ordenes de compras
+Route::get('/gestionCompras/ordenesCompra', [GestionOrdenesCompraController::class, 'index'])->name('compras.ordenes');
+
 
 //Controlador PDF
 route::get('/gestionCompras/presupuestos/{solicitud}/descargar',[PDFController::class,'PDFSolPresu'])->name('descargarSolPresuPDF');

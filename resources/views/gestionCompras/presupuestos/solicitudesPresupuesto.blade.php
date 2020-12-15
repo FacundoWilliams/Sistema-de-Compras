@@ -18,33 +18,52 @@
     </div> 
 
 
-  <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">     
+  <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">      
     @if (session('success'))
-    <div class="alert alert-success" role="success">
-        {{ session('success') }}
-    </div> 
-    @endif 
-        <div class="d-flex justify-content-center"> 
-            <a href="{{route('compras.presupuestos.solicitar',$solicitud)}}" class="btn btn-primary btn-sm">Solicitar Presupuesto</a>  
-        </div>
+    <div class="alert alert-succces" role="alert">
+      <strong>{{session('success') }}</strong>
+      <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>       
+    @endif
+      <div class="d-flex justify-content-center"> 
+          <a href="{{route('compras.presupuestos.solicitar',$solicitud)}}" class="btn btn-primary btn-sm mt-2">Solicitar Presupuesto</a>  
+      </div>
       <table id="example" class="table table-hover table-bordered" style="width:100%">
+        <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Presupuestos Solicitados</caption>
           <thead>         
-              <tr class="bg-blue-50">           
-                  <th class="text-center w-4" name="id">ID</th>                 
-                  <th class="text-center w-48" name="fecha">ID Solicitud Compra</th>                                 
-                  <th class="text-center w-16">Fecha de Registro</th>  
-                  <th class="text-center w-16">Acciones</th>  
+              <tr class="bg-blue-50">        
+                  <th class="text-center" style="width:5%">ID</th>                 
+                  <th class="text-center" style="width:25%">Proveedor</th>                                 
+                  <th class="text-center" style="width:30%">Estado</th>  
+                  <th class="text-center" style="width:25%">Acciones</th>                    
               </tr>
           </thead>
-          <tbody> 
+          <tbody>         
           @foreach ($solpresupuestos as $s)            
               <tr>                             
                   <td class="text-center" name="idsp">{{$s->SolicitudPresupuestoID}}</td>
-                  <td class="text-center" name="id">{{$s->SolicitudCompraID}}</td>
-                  <td class="text-center" name="fecha">{{$s->FechaRegistro}}</td>            
-                  <td class="text-center">                                 
-                    <a href="{{route('compras.presupuestos')}}" class="btn btn-outline-success btn-sm">Registrar Presupuesto</a>  
-                    <a href="{{route('compras.presupuestos.verDetalle',$s->SolicitudPresupuestoID)}}" class="btn btn-outline-danger btn-sm">Ver detalle</a>                      
+                  <td class="text-center" name="proveedor">{{$s->Razon_social}}</td>
+                    @if($s->PresupuestoID == NULL)
+                      <td class="text-center text-white">
+                        <div class="container bg-red-400  rounded">
+                          <strong>Sin presupuesto registrado</strong>
+                        </div>
+                      </td>                             
+                    @else 
+                      <td class="text-center text-white">
+                        <div class="container bg-green-400  rounded">
+                          <strong>Existe presupuesto registrado</strong>
+                        </div>
+                      </td>  
+                    @endif                        
+                  <td class="text-center">  
+                    <input type="hidden" name="artID[]" value="{{$solicitud}}">                                            
+                    @if($s->PresupuestoID == NULL)
+                      <a href="{{route('compras.presupuestos.alta',$s->SolicitudPresupuestoID)}}" class="btn btn-outline-success btn-sm">Registrar Presupuesto</a>  
+                    @endif     
+                    <a href="{{route('compras.presupuestoSolicitado.verDetalle',$s->SolicitudPresupuestoID)}}" class="btn btn-outline-danger btn-sm">Ver detalle</a>                      
                   </td>                  
               </tr>                                                     
           @endforeach                           
