@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Detalle_Orden_Compra;
 use App\Models\Detalle_Presupuesto;
 use App\Models\Detalle_Solicitud_Presupuesto;
 use App\Models\Estado_Orden_Compra;
@@ -393,27 +394,43 @@ class GestionPresupuestosController extends Controller
         return redirect()->route('compras.presupuestosRegistrados.seleccionPresuRegistrado',$request->presupuesto)->with('error','No se seleccionaron artículos para comprar.');
       
       //Se recupera el ID de la solicitud de compra vinculado con el presupesto registrado
-      $solCompra = DB::table('solicitudes_presupuestos')
-      ->where('SolicitudPresupuestoID',$request->SoliPresuID)
+      $solCompra = DB::table('presupuestos')
+      ->join('solicitudes_presupuestos','solicitudes_presupuestos.SolicitudPresupuestoID','=','presupuestos.SoliPresuID')
+      ->where('PresupuestoID',$request->presupuesto)
       ->value('SolicitudCompraID');
+      
+      $total=0;
+      //Reccorre array de articulos seleccionados
 
       //Se crea la orden de compra
       $orden_compra = new Orden_Compra();
       $orden_compra->FechaRegistro = date("Y-n-j");      
-      $orden_compra->Total = $request->Total;
-      $orden_compra->ProveID = $request->ProveedorID;
-      $orden_compra->PresuID = $request->PresupuestoID;
-      $orden_compra->SoliCompraID = $solCompra;
+      $orden_compra->Total = $total;
+      $orden_compra->PresuID = $request->presupuesto;
+      $orden_compra->SoliCompraID = $solCompra;      
       $orden_compra->save();
+
 
       //Se crea el estado de la orden de compra
       $estado_orden_compra = new Estado_Orden_Compra();
       $estado_orden_compra->EstadoID = 'Pendiente';
-
+      $estado_orden_compra->OrdenCompraID = DB::table('ordenes_compras')->max('OrdenCompraID');
+      $estado_orden_compra->AdminComprasID=Auth::id();
+      $estado_orden_compra->FechaHora = date("Y-n-j"); 
+      $estado_orden_compra->save();
+         
       //Se crea el detalle de la orden de compra
+      $n = count($request->id);
+      for($i=0; $i < $n; $i++){
+        $detalle_orden_compra = new Detalle_Orden_Compra();
+        $detalle_orden_compra->ArticuloID = $request->id[$i];
+        $detalle_orden_compra->OrdenCompraID = DB::table('ordenes_compras')->max('OrdenCompraID');
+        $detalle_orden_compra->Cantidad = $request->cantidad[$i];
+        $detalle_orden_compra->PrecioUnitario = $request->precioUni[$i];
+        $detalle_orden_compra->save();
+      }    
 
-
-      //Se retorna a la vista de presupuestos registrados alertando con un mensaje de exito.
+      //Se retorna a la vista del menu de ordenes de compras
       return redirect()->route('compras.ordenes')->with('success','Se ha creado una orden de compra.');
     }
 

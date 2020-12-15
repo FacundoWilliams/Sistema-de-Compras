@@ -50,8 +50,8 @@
               @endif        
               <form id="frm-example" action="{{route('compras.presupuestosRegistrados.seleccionDetalle')}}" method="POST">
               @csrf      
-              <input type="hidden" name="proveedor" value="{{$prove[0]->ProveID}}">
-              <input type="hidden" name="presupuesto" value="{{$idPresu}}">                                      
+              <input type="hidden" name="total" value="{{$prove[0]->Total}}">
+              <input type="hidden" name="presupuesto" value="{{$idPresu}}">          
               <table id="example" class="table table-hover table-bordered mt-3" style="width:100%">
                 <div class="d-flex justify-content-center mt-3"> 
                   <button type="submit" class="btn btn-primary">Seleccionar</button>
@@ -78,7 +78,9 @@
                         <td class="text-center">{{$d->ArticuloID}}</td>
                         <td class="text-center">{{$d->Descripcion}}</td>
                         <td class="text-center">{{$d->Cantidad}}</td>
+                        <input type="hidden" name="cantidad[]" value="{{$d->Cantidad}}">  
                         <td class="text-center">{{$d->PrecioUnitario}}</td>
+                        <input type="hidden" name="precioUni[]" value="{{$d->PrecioUnitario}}">  
                         <td class="text-center">{{$d->Descuento}}</td>                                                               
                         <td class="text-center">{{$subtotal[$i]}}</td>                                                               
                         @php

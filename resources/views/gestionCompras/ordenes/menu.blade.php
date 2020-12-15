@@ -1,7 +1,7 @@
 <x-app-layout>
 <x-slot name="header">
   <h2 class="font-bold text-xl text-blue-800 leading-tight">
-      {{ __('Administración de Òrdenes de Compras') }}
+      {{ __('Administración de Órdenes de Compras') }}
   </h2>
 </x-slot>
 <div class="container h-auto mx-auto mt-2">
@@ -25,21 +25,43 @@
               <tr class="bg-blue-50">           
                   <th class="text-center" style="width:5%">ID</th>                 
                   <th class="text-center" style="width:15%">Fecha de Registro</th>                                 
-                  <th class="text-center" style="width:30%">Proveedor</th>  
-                  <th class="text-center" style="width:30%">Estado</th>             
+                  <th class="text-center" style="width:25%">Proveedor</th>  
+                  <th class="text-center" style="width:35%">Estado</th>             
                   <th class="text-center" style="width:20%">Acciones</th>               
               </tr>
           </thead>
           <tbody> 
           @foreach ($ordenes as $o)            
               <tr>                             
-                <td class="text-center"></td>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
-                <td class="text-center"></td>
+                <td class="text-center">{{$o->OrdenCompraID}}</td>
+                <td class="text-center">{{$o->FechaRegistro}}</td>
+                <td class="text-center">{{$o->Razon_social}}</td>
+                @if ($o->EstadoID == 'Pendiente')
+                <td class="text-center text-white">
+                  <div class="container bg-red-400  rounded">
+                    <strong>Orden de Compra pendiente de selección</strong>
+                  </div>
+                </td>  
+              @else
+                <td class="text-center text-white">
+                  <div class="container bg-green-400  rounded">
+                    <strong>Orden de Compra seleccionada</strong>
+                  </div>
+                </td>
+              @endif
                 <td class="text-center">
-                  <a href="" class="btn btn-outline-info btn-sm">Evaluar</a>
-                  <a href="" class="btn btn-outline-dark btn-sm">Ver detalle</a>    
+                  {{--
+                  <!-- Boton trigger modal evaluar -->
+                  <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalEliminar" 
+                  data-id={{$o->OrdenCompraID}}                  
+                  data-proveedor={{$o->Razon_social}}                  
+                  data-total={{$o->Total}}                  
+                  >
+                    Evaluar
+                  </button>
+                  --}}
+                <a href="" class="btn btn-outline-info btn-sm">Evaluar</a>    
+                <a href="" class="btn btn-outline-dark btn-sm">Ver detalle</a>    
                 </td>                                                               
               </tr>                                                     
           @endforeach                           
@@ -74,3 +96,32 @@
     $(e.currentTarget).find('#id').val(id);
   });
 </script>
+
+<!-- Modal eliminar -->
+<div class="modal fade" id="modalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Eliminar artículo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action={{route('gestionArticulos.eliminar')}} method="POST">
+        @csrf 
+        @method('put')
+      <div class="modal-body">
+        <input class="form-control" type="hidden" id="id" name="id">   
+        <p class="text-center">
+          ¿Estás seguro que deseas eliminar el siguiente artículo?
+        </p>
+        <h5 class="text-center"></h5>       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Eliminar</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>

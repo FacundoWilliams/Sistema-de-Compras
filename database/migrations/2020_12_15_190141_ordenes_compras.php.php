@@ -17,14 +17,13 @@ class OrdenesCompras extends Migration
             $table->id('OrdenCompraID');
             $table->date('FechaRegistro');
             $table->decimal('Total');
-            $table->unsignedBiginteger('ProveID');	     
             $table->unsignedBiginteger('PresuID');
             $table->unsignedBiginteger('SoliCompraID');
-            $table->foreign('ProveID')->references('ProveedorID')->on('proveedores');
             $table->foreign('PresuID')->references('PresupuestoID')->on('presupuestos');
             $table->foreign('SoliCompraID')->references('SolicitudCompraID')->on('solicitud_compras');
+        });
 
-        });   
+        
     }
 
     /**
