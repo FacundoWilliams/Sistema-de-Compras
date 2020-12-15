@@ -22,7 +22,7 @@ class GestionPresupuestosController extends Controller
     public function index(){
       $solicitudes = DB::table('solicitud_compras')
       ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
-      ->get();
+      ->where('EstadoID','Pendiente')->get();
       return view('/gestionCompras/presupuestos/menu')
       ->with('solicitudes' ,$solicitudes);  
     }
@@ -359,7 +359,8 @@ class GestionPresupuestosController extends Controller
       $presu = DB::table('presupuestos')
       ->join('detalles_presupuestos','detalles_presupuestos.PresupuestoID','=','presupuestos.PresupuestoID')
       ->join('articulos','articulos.ArticuloID','=','detalles_presupuestos.ArticuloID')
-      ->where('presupuestos.PresupuestoID',$idPresu)->get();
+      ->where('presupuestos.PresupuestoID',$idPresu)
+      ->where('detalles_presupuestos.FechaHoraSeleccion',null)->get();
       
       //Se recuperan los datos del proveedor del presupuesto registrado con el ID $idPresu
       $prove = DB::table('presupuestos')

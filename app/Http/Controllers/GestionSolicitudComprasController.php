@@ -16,7 +16,7 @@ class GestionSolicitudComprasController extends Controller
    public function index(){
       $solicitudes = DB::table('solicitud_compras')
       ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
-      ->get();
+      ->where('EstadoID','Pendiente')->get();
       return view('/gestionCompras/solicitudCompras/menu')
       ->with('solicitudes' ,$solicitudes);  
    } 

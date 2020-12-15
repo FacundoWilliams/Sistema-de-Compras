@@ -17,6 +17,7 @@ class DetallesPresupuestos extends Migration
             $table->unsignedBiginteger('ArticuloID');
             $table->unsignedBiginteger('PresupuestoID');
             $table->integer('Cantidad');
+            $table->dateTime('FechaHoraSeleccion')->nullable();
             $table->float('PrecioUnitario');
             $table->float('Descuento')->nullable();	          
             $table->foreign('PresupuestoID')->references('PresupuestoID')->on('presupuestos');
