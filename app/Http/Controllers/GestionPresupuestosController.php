@@ -377,11 +377,17 @@ class GestionPresupuestosController extends Controller
           $subtotal[$i] -=  ($subtotal[$i] * $subtotal[$i]->Descuento)/100;
       }     
 
+      $idSolCompra = DB::table('presupuestos')
+      ->join('solicitudes_presupuestos','solicitudes_presupuestos.SolicitudPresupuestoID','=','presupuestos.SoliPresuID')
+      ->where('PresupuestoID',$idPresu)
+      ->value('SolicitudCompraID');
+
       return view('/gestionCompras/presupuestos/seleccionPresupuesto')
       ->with('prove',$prove)
       ->with('detalle',$presu)
       ->with('idPresu',$idPresu)
-      ->with('subtotal',$subtotal);
+      ->with('subtotal',$subtotal)
+      ->with('solCompra',$idSolCompra);
     }
 
 

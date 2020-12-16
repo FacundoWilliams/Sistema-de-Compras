@@ -1,14 +1,14 @@
 <x-app-layout>
     <x-slot name="header">
       <h2 class="font-bold text-xl text-blue-800 leading-tight">
-          {{ __('Seleccionar de Presupuesto Registrado') }}
+          {{ __('Selección de Presupuesto Registrado') }}
       </h2>
     </x-slot>
 
     <div class="container h-auto mx-auto mt-3">
       <div class="row justify-content-start">
         <div class="col-md-3">
-          <a class="btn btn-danger" href={{route('compras.presupuestos.registrados',$idPresu)}} role="button">Atras</a>
+          <a class="btn btn-danger" href={{route('compras.presupuestos.registrados',$solCompra)}} role="button">Atras</a>
         </div> 
       </div>
         <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-3 p-2 bg-white">                 
