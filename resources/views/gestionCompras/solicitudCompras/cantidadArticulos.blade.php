@@ -17,6 +17,7 @@
     </div> 
   </div>
 
+
   <form id="frm-example" action="{{route('compras.solicitudCompra.registrarSolicitudCompra')}}" method="POST">
     @csrf 
   <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-4 p-3 bg-white">
@@ -34,19 +35,24 @@
               </tr>
           </thead>
           <tbody>
-            
             @foreach ($articulos as $a) 
             <tr>                 
                   <input type="hidden" name="ids[]" value="{{$a->ArticuloID}}" >
                   <td class="id">{{$a->ArticuloID}}</td>
-                  <td>{{$a->Descripcion}}</td>
+                  <td>{{$a->Descripcion}}</td>                      
                   <td><input type="number" name="cantidades[] "></td>
-                  <td><input type="date" name="fechas[]" ></td>
+                  <td><input type="date" name="fechas[]" min={{date("Y-n-j")}}></td>
               </tr>                                   
             @endforeach                  
           </tbody>         
         </table>                      
-  </div>    
+  </div>   
 </form>
 </x-app-layout>
 
+@livewireStyles
+<script>
+  $(document).ready(function (){ 
+    date.min = new Date().toISOString().split("T")[0];
+  })
+</script>

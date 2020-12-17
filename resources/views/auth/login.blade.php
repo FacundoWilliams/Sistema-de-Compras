@@ -43,9 +43,9 @@
             <div class="flex items-center justify-end mt-4">
                 
             
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Registro</a>
+                {{--<a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 underline">Registro</a>--}}
                 
-                
+            
                 <x-jet-button class="block mt-1 w-full">
                     {{ __('Login') }}
                 </x-jet-button>

@@ -39,20 +39,16 @@
         <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Presupuestos Registrados</caption>
           <thead>         
               <tr class="bg-blue-50">        
-                  <th class="text-center" style="width:8%">ID</th>                 
-                  <th class="text-center" style="width:25%">Proveedor</th>                                 
-                  <th class="text-center" style="width:25%">Estado</th>  
-                  <th class="text-center" style="width:18%">Acciones</th>  
+                  <th class="text-center" style="width:10%">ID</th>                 
+                  <th class="text-center" style="width:40">Proveedor</th>                                 
+                  <th class="text-center" style="width:30%">Acciones</th>  
               </tr>
           </thead>
           <tbody>         
           @foreach ($presu_regi as $p)            
               <tr>                             
                   <td class="text-center" name="idsp">{{$p->PresupuestoID}}</td>
-                  <td class="text-center" name="proveedor">{{$p->Razon_social}}</td>
-                  <td class="text-center" name="proveedor">
-
-                  </td>
+                  <td class="text-center" name="proveedor">{{$p->Razon_social}}</td>             
                   <td class="text-center">  
                     <a href="{{route('compras.presupuestosRegistrados.seleccionPresuRegistrado',$p->PresupuestoID)}}" class="btn btn-outline-success btn-sm">Seleccionar</a>  
                     <a href="{{route('compras.presupuestosRegistrados.verDetalle',$p->PresupuestoID)}}" class="btn btn-outline-danger btn-sm">Ver detalle</a>                      

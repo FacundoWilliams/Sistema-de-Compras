@@ -18,23 +18,21 @@
         <div class="container-lg sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
-                    <tr class="bg-blue-50">     
-                        <th class="text-center w-1">Legajo</th>      
-                        <th class="w-28">Nombre</th>                      
-                        <th class="w-28">Apellido</th>                        
-                        <th class="w-20">Telefono</th>                    
-                        <th class="w-20">Email</th>                    
-                        <th class="text-center w-20">Acciones</th>                    
+                    <tr class="bg-blue-50">  
+                        <th class="text-center" style="width:1%">Legajo</th>      
+                        <th class="text-center" style="width:20%">Nombre</th>                      
+                        <th class="text-center" style="width:20%">Apellido</th>                        
+                        <th class="text-center" style="width:30%">Email</th>                    
+                        <th class="text-center" style="width:15%">Acciones</th>                    
                     </tr>
                 </thead>
                 <tbody>                    
                 @foreach ($personas as $p)                 
                     <tr>                
                         <td class="text-center">{{$p->Legajo}}</td>                                                
-                        <td>{{$p->Nombre}}</td>
-                        <td>{{$p->Apellido}}</td> 
-                        <td>{{$p->telefono}}</td>                    
-                        <td>{{$p->Mail}}</td> 
+                        <td class="text-center">{{$p->Nombre}}</td>
+                        <td class="text-center">{{$p->Apellido}}</td> 
+                        <td class="text-center">{{$p->Mail}}</td> 
                         <td class="text-center">
                             <!-- Boton trigger modal editar -->
                             <button type="button" class="btn btn-outline-info btn-sm px-3" data-toggle="modal" data-target="#modalEditar"
@@ -50,7 +48,7 @@
                                 Editar
                             </button>
                             <!-- Boton trigger modal eliminar -->
-                            <button type="button" class="btn btn-outline-danger btn-sm px-2 mt-1" data-toggle="modal" data-target="#modalEliminar">
+                            <button type="button" class="btn btn-outline-danger btn-sm px-2" data-toggle="modal" data-target="#modalEliminar">
                                 Eliminar
                             </button>
                         </td>                            

@@ -240,9 +240,10 @@ class GestionPresupuestosController extends Controller
       for($i=0; $i<$n; $i++){
         $subtotal[$i] = $presu[$i]->Cantidad * $presu[$i]->PrecioUnitario;
         if($presu[$i]->Descuento != 0)
-          $subtotal[$i] -=  ($subtotal[$i] * $subtotal[$i]->Descuento)/100;
+          $subtotal[$i] -=  ($subtotal[$i] * $presu[$i]->Descuento)/100;
       }     
 
+      //return $subtotal;
       //Se recuperan los datos del proveedor del presupuesto registrado con el ID $idSol
       $prove = DB::table('presupuestos')
       ->join('proveedores','proveedores.ProveedorID','=','presupuestos.ProveID')
@@ -270,13 +271,13 @@ class GestionPresupuestosController extends Controller
       $solCompra = DB::table('solicitudes_presupuestos')
       ->where('solicitudes_presupuestos.SolicitudPresupuestoID',$idSol)
       ->value('SolicitudCompraID');
+      
       return view('/gestionCompras/presupuestos/alta')
       ->with('detalle',$detalle)
       ->with('solCompra',$solCompra);
     }
 
     public function registrarPresupuesto(Request $request, $idSol){
-      //return $request;
       //Se crea el presupuesto en la BD 
       $presupuesto = new Presupuesto();
       $presupuesto->NroPresupuesto=$request->presuNro;
@@ -287,12 +288,15 @@ class GestionPresupuestosController extends Controller
       $presupuesto->SoliPresuID=$idSol;     
       $n=count($request->cantidad);
       $subtotal = 0;
+      $descuento = 0;
+      $total = 0;
       for ($i=0; $i < $n ; $i++){
           $subtotal += $request->cantidad[$i] * $request->precioUni[$i];
         if($request->descuento[$i] != 0)
-          $subtotal -=  ($subtotal * $request->descuento[$i])/100;
+          $descuento +=  (($request->cantidad[$i] * $request->precioUni[$i]) * $request->descuento[$i])/100;          
       }
-      $presupuesto->Total = $subtotal;
+      $total = $subtotal - $descuento;
+      $presupuesto->Total = $total;    
       $presupuesto->save();
 
       //Se crea el estado del presupuesto en la BD
@@ -342,8 +346,7 @@ class GestionPresupuestosController extends Controller
       ->join('users','users.id','=','estados_solicitud_compras.ResponsableID')
       ->where('solicitud_compras.SolicitudCompraID',$idSol)
       ->get();
-
-      //return $presu_regi;
+    
       //Se retorna a la vista con los datos recuperados
       return view('/gestionCompras/presupuestos/presupuestosRegistrados')
       ->with('presu_regi',$presu_regi)
@@ -361,12 +364,21 @@ class GestionPresupuestosController extends Controller
       ->join('articulos','articulos.ArticuloID','=','detalles_presupuestos.ArticuloID')
       ->where('presupuestos.PresupuestoID',$idPresu)
       ->where('detalles_presupuestos.FechaHoraSeleccion',null)->get();
-      
+
+      $solCompra = DB::table('presupuestos')
+      ->join('solicitudes_presupuestos','solicitudes_presupuestos.SolicitudPresupuestoID','=','presupuestos.SoliPresuID')
+      ->where('presupuestos.PresupuestoID',$idPresu)
+      ->value('SolicitudCompraID');
+
+      //Se controla que los detalles de presupuestos no sean nulos, en este caso se alerta al usuario que el presupuesto ya ha sido seleccionado.
+      if(count($presu) == NULL)
+        return redirect()->route('compras.presupuestos.registrados',$solCompra)->with('error','El presupuesto ya ha sido seleccionado.');
+
       //Se recuperan los datos del proveedor del presupuesto registrado con el ID $idPresu
       $prove = DB::table('presupuestos')
       ->join('proveedores','proveedores.ProveedorID','=','presupuestos.ProveID')
       ->where('presupuestos.PresupuestoID',$idPresu)
-      ->get();
+      ->get();   
 
       //Se calculan los subtotales del detalle para enviarlos a la vista
       $subtotal = array();
@@ -374,7 +386,7 @@ class GestionPresupuestosController extends Controller
       for($i=0; $i<$n; $i++){
         $subtotal[$i] = $presu[$i]->Cantidad * $presu[$i]->PrecioUnitario;
         if($presu[$i]->Descuento != 0)
-          $subtotal[$i] -=  ($subtotal[$i] * $subtotal[$i]->Descuento)/100;
+          $subtotal[$i] -=  ($subtotal[$i] * $presu[$i]->Descuento)/100;
       }     
 
       $idSolCompra = DB::table('presupuestos')
@@ -392,22 +404,31 @@ class GestionPresupuestosController extends Controller
 
 
     /**
-     * Función que recibe el detalle seleccionado de un presupuesto registrado, crea la orden de compra y su correspondiente 
-     * detalle.
+     * Función que recibe el detalle seleccionado de un presupuesto registrado, crea la orden de compra y 
+     * su correspondiente detalle.
      */
     public function seleccionarDetallePresupuestoRegistrado(Request $request){
       //Se controla que si no se seleccionaron articulos, no se debe crear una orden de compra, se debe alertar al usuario y retornar a la vista actual
       if($request->id == NULL)
         return redirect()->route('compras.presupuestosRegistrados.seleccionPresuRegistrado',$request->presupuesto)->with('error','No se seleccionaron artículos para comprar.');
-      
+            
       //Se recupera el ID de la solicitud de compra vinculado con el presupesto registrado
       $solCompra = DB::table('presupuestos')
       ->join('solicitudes_presupuestos','solicitudes_presupuestos.SolicitudPresupuestoID','=','presupuestos.SoliPresuID')
       ->where('PresupuestoID',$request->presupuesto)
       ->value('SolicitudCompraID');
-      
+
+
       $total=0;
-      //Reccorre array de articulos seleccionados
+      $n = count($request->id);
+      //Reccorre array de articulos seleccionados y se calcula el total de la orden de compra, tambien se actualizan la fecha de seleccion de los detalles seleccionados
+      for($i=0; $i < $n; $i++){
+        $total += $request->cantidad[$i] * $request->precioUni[$i];
+        DB::table('detalles_presupuestos')
+        ->where('ArticuloID',$request->id[$i])
+        ->where('PresupuestoID',$request->presupuesto)
+        ->update(['FechaHoraSeleccion'=>date("Y-n-j")]);
+      }   
 
       //Se crea la orden de compra
       $orden_compra = new Orden_Compra();
@@ -417,25 +438,32 @@ class GestionPresupuestosController extends Controller
       $orden_compra->SoliCompraID = $solCompra;      
       $orden_compra->save();
 
-
       //Se crea el estado de la orden de compra
       $estado_orden_compra = new Estado_Orden_Compra();
       $estado_orden_compra->EstadoID = 'Pendiente';
       $estado_orden_compra->OrdenCompraID = DB::table('ordenes_compras')->max('OrdenCompraID');
       $estado_orden_compra->AdminComprasID=Auth::id();
       $estado_orden_compra->FechaHora = date("Y-n-j"); 
-      $estado_orden_compra->save();
-         
+      $estado_orden_compra->save();  
+
       //Se crea el detalle de la orden de compra
       $n = count($request->id);
+      $descuento = 0;
       for($i=0; $i < $n; $i++){
         $detalle_orden_compra = new Detalle_Orden_Compra();
         $detalle_orden_compra->ArticuloID = $request->id[$i];
         $detalle_orden_compra->OrdenCompraID = DB::table('ordenes_compras')->max('OrdenCompraID');
         $detalle_orden_compra->Cantidad = $request->cantidad[$i];
         $detalle_orden_compra->PrecioUnitario = $request->precioUni[$i];
+        $detalle_orden_compra->Descuento = $request->Descuento[$i];
+        $descuento += (($request->cantidad[$i] * $request->precioUni[$i])*$request->Descuento[$i])/100;
         $detalle_orden_compra->save();
       }    
+
+      //Actualizo el valor del total de la Orden de Compra aplicando el descuento calculado en el detalle.
+      $orden_compra->OrdenCompraID = DB::table('ordenes_compras')->max('OrdenCompraID');
+      $orden_compra->Total -= $descuento;
+      $orden_compra->save();
 
       //Se retorna a la vista del menu de ordenes de compras
       return redirect()->route('compras.ordenes')->with('success','Se ha creado una orden de compra.');

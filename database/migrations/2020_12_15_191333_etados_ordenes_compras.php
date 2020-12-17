@@ -18,6 +18,8 @@ class EtadosOrdenesCompras extends Migration
             $table->unsignedBiginteger('OrdenCompraID');
             $table->unsignedBiginteger('AdminComprasID');
             $table->dateTime('FechaHora');
+            $table->unsignedBiginteger('IDAprobador')->nullable();
+            $table->foreign('IDAprobador')->references('id')->on('users');
             $table->foreign('OrdenCompraID')->references('OrdenCompraID')->on('ordenes_compras');
             $table->foreign('AdminComprasID')->references('id')->on('users');
             $table->foreign('EstadoID')->references('EstadoID')->on('estados');

@@ -18,6 +18,7 @@ class DetallesOrdenCompra extends Migration
             $table->unsignedBiginteger('OrdenCompraID');
             $table->integer('Cantidad');
             $table->integer('PrecioUnitario');
+            $table->float('Descuento')->nullable();	          
             $table->foreign('ArticuloID')->references('ArticuloID')->on('articulos');
             $table->foreign('OrdenCompraID')->references('OrdenCompraID')->on('ordenes_compras');
             $table->primary(['ArticuloID','OrdenCompraID']);
@@ -31,6 +32,6 @@ class DetallesOrdenCompra extends Migration
      */
     public function down()
     {
-        schema::dropIfExists('ordenes_compras');
+        schema::dropIfExists('detalles_orden_compra');
     }
 }

@@ -1,7 +1,7 @@
 <x-app-layout>
 <x-slot name="header">
   <h2 class="font-bold text-xl text-blue-800 leading-tight">
-      {{ __('Administración de Órdenes de Compras') }}
+      {{ __('Administración de Ordenes de Compras') }}
   </h2>
 </x-slot>
 <div class="container h-auto mx-auto mt-2">
@@ -11,7 +11,7 @@
     </div>    
   </div> 
   <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">     
-    @if (session('success'))
+  @if (session('success'))
     <div class="alert alert-success" role="success">
       <strong>{{ session('success') }}</strong>
       <button type="button" class="close" data-dismiss="alert" alert-label="Close">
@@ -20,7 +20,7 @@
     </div>       
   @endif
       <table id="example" class="table table-hover table-bordered" style="width:100%">
-        <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Órdenes de Compras</caption>
+        <caption style="caption-side: top; text-align: center; font-style: italic;">Listado de Ordenes de Compras</caption>
           <thead>         
               <tr class="bg-blue-50">           
                   <th class="text-center" style="width:5%">ID</th>                 
@@ -36,32 +36,21 @@
                 <td class="text-center">{{$o->OrdenCompraID}}</td>
                 <td class="text-center">{{$o->FechaRegistro}}</td>
                 <td class="text-center">{{$o->Razon_social}}</td>
-                @if ($o->EstadoID == 'Pendiente')
+                @if ($o->IDAprobador == NULL)
                 <td class="text-center text-white">
-                  <div class="container bg-red-400  rounded">
-                    <strong>Orden de Compra pendiente de selección</strong>
+                  <div class="container bg-yellow-400  rounded">
+                    <strong>Orden de Compra sin evaluación</strong>
                   </div>
-                </td>  
-              @else
+                </td>                
+                @else
                 <td class="text-center text-white">
                   <div class="container bg-green-400  rounded">
-                    <strong>Orden de Compra seleccionada</strong>
+                    <strong>Orden de Compra evaluada</strong>
                   </div>
-                </td>
-              @endif
-                <td class="text-center">
-                  {{--
-                  <!-- Boton trigger modal evaluar -->
-                  <button type="button" class="btn btn-outline-primary btn-sm" data-toggle="modal" data-target="#modalEliminar" 
-                  data-id={{$o->OrdenCompraID}}                  
-                  data-proveedor={{$o->Razon_social}}                  
-                  data-total={{$o->Total}}                  
-                  >
-                    Evaluar
-                  </button>
-                  --}}
-                <a href="" class="btn btn-outline-info btn-sm">Evaluar</a>    
-                <a href="" class="btn btn-outline-dark btn-sm">Ver detalle</a>    
+                </td>   
+                @endif                                    
+                <td class="text-center">                  
+                  <a href="{{route('compras.ordenes.verDetalle', $o->OrdenCompraID)}}" class="btn btn-outline-dark btn-sm">Ver detalle</a>    
                 </td>                                                               
               </tr>                                                     
           @endforeach                           

@@ -27,11 +27,11 @@
               </div>
               <div class="col-md-3 border-2 border-grey-700 py-2">
                 <label for="#persuNro">Fecha de validez: </label>              
-                <input class="form-control" type="date" id="fechaVal" name="fechaVal" required>             
+                <input class="form-control" type="date" id="fechaVal" name="fechaVal" min={{date("Y-n-j")}} required>             
               </div>  
               <div class="col-md-3 border-2 border-grey-700 py-2">
                 <label for="#persuNro">Fecha de entrega: </label>              
-                <input class="form-control" type="date" id="fechaVal" name="fechaVal" required>             
+                <input class="form-control" type="date" id="fechaVal" name="fechaVal"  min={{date("Y-n-j")}} required>             
               </div>                   
             </div>   
             <div class="row justify-content-center">
@@ -46,7 +46,7 @@
                     <th class="text-center" style="width:40%">Descripcion</th>                                 
                     <th class="text-center" style="width:10%">Cantidad</th>  
                     <th class="text-center" style="width:15%">Precion Unitario $</th>  
-                    <th class="text-center" style="width:15%">Descuento %</th>   
+                    <th class="text-center" style="width:15%">Descuento %</th>  
                 </tr>
             </thead>
             <tbody> 
@@ -58,14 +58,14 @@
                     </td>
                     <td class="text-center">{{$d->Descripcion}}</td>
                     <td class="text-center">
-                      <input class="form-control text-center" type="number" name="cantidad[]" value="{{$d->Cantidad}}" min="0" max={{$d->Cantidad}} style="width: 6em" required>             
+                      <input class="form-control text-center" type="number" name="cantidad[]" id="cantidad" value="{{$d->Cantidad}}" min="0" max={{$d->Cantidad}} style="width: 6em" required>             
                     </td>
                     <td>
                       <input class="form-control text-center ml-3" type="number" name="precioUni[]" value="0" min="0" style="width: 8em" required>             
                     </td>
                     <td class="text-center"> 
                       <input class="form-control text-center" type="number" name="descuento[]" value="0" min="0" style="width: 8em" required>              
-                    </td>                                                               
+                    </td>                     
                 </tr>                                                     
             @endforeach                           
             </tbody>         
@@ -81,6 +81,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
 
 @livewireScripts
+
 <!--Script del datatable-->
 <script>
   $(document).ready(function (){

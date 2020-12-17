@@ -121,6 +121,10 @@ Route::post('/gestionCompras/presupuestos/registrarPresupuesto',[GestionPresupue
 
 //Administración de ordenes de compras
 Route::get('/gestionCompras/ordenesCompra', [GestionOrdenesCompraController::class, 'index'])->name('compras.ordenes');
+Route::get('/gestionCompras/ordenCompraNro/{ordencompra}/verDetalle', [GestionOrdenesCompraController::class, 'verDetalle'])->name('compras.ordenes.verDetalle');
+Route::post('/gestionCompras/ordenCompraNro/aprobar', [GestionOrdenesCompraController::class, 'aprobar'])->name('compras.ordenes.aprobar');
+Route::post('/gestionCompras/ordenCompraNro/rechazar', [GestionOrdenesCompraController::class, 'rechazar'])->name('compras.ordenes.rechazar');
+
 
 
 //Controlador PDF

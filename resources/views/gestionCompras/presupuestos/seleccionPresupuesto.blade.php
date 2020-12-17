@@ -81,6 +81,7 @@
                         <input type="hidden" name="cantidad[]" value="{{$d->Cantidad}}">  
                         <td class="text-center">{{$d->PrecioUnitario}}</td>
                         <input type="hidden" name="precioUni[]" value="{{$d->PrecioUnitario}}">  
+                        <input type="hidden" name="Descuento[]" value="{{$d->Descuento}}">  
                         <td class="text-center">{{$d->Descuento}}</td>                                                               
                         <td class="text-center">{{$subtotal[$i]}}</td>                                                               
                         @php
