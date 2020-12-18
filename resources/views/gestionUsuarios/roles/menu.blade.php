@@ -32,7 +32,7 @@
                     <tr class="bg-blue-50">           
                         <th class="text-center" style="width:10%">Rol ID</th>
                         <th class="text-center" style="width:15%">Fecha de Creación</th> 
-                        <th class="text-center" style="width:15%">Permisos</th> 
+                        <th class="text-center" style="width:30%">Permisos</th> 
                     </tr>
                 </thead>
                 <tbody>
@@ -40,8 +40,10 @@
                     <tr>                
                         <td class="text-center">{{$r->RolID}}</td>                        
                         <td>{{$r->created_at}}</td>
-                        <td class="text-center">
+                        <td class="text-center"  >
                             <a href="{{route('rol.verAsignacionPermisos',$r->RolID)}}" class="btn btn-outline-info btn-sm">Asignar Permisos</a>
+                            <a href="{{route('rol.verQuitarPermisos', $r->RolID)}}" class="btn btn-outline-danger btn-sm">Quitar Permisos</a>
+                            <a href="{{route('rol.verPermisos', $r->RolID)}}" class="btn btn-outline-dark btn-sm">Ver Permisos</a>
                         </td>
         
                     </tr>                                                                           

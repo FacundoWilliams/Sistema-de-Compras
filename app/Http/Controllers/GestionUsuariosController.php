@@ -16,7 +16,7 @@ class GestionUsuariosController extends Controller
 
     public function menu(){
         //validar que sea Super_Usuario
-        $this->authorize('consultar', Sector::class);
+        $this->authorize('consultar', User::class);
         $usuarios = User::all()
         ->where('Activo',1);
         return view('gestionUsuarios/usuarios/menu')
@@ -62,6 +62,7 @@ class GestionUsuariosController extends Controller
     }
 
     public function editar(Request $request){
+        $this->authorize('modificar', User::class);
         //return $request;
         $usuario = User::find($request->name);
         DB::table('users')

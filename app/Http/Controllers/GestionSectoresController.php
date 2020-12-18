@@ -45,7 +45,7 @@ class GestionSectoresController extends Controller
     }
 
     public function editar(Request $request){
-        $this->authorize('editar', Sector::class);    
+        $this->authorize('modificar', Sector::class);    
         $sector = Sector::find($request->id);
         $sector->descripcion=$request->sector;
         $sector->persona_a_cargo=$request->persona;
@@ -56,7 +56,7 @@ class GestionSectoresController extends Controller
     }
 
     public function eliminar(Request $request){
-        $this->authorize('eliminar', Sector::class);
+        $this->authorize('baja', Sector::class);
         DB::table('sectores')
         ->where('sectores.SectorID',$request->id)       
         ->update(['Activo'=> 0]);   

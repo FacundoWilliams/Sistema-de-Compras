@@ -380,7 +380,7 @@ class GestionPresupuestosController extends Controller
      */
     public function seleccionPresuRegistrado($idPresu){
       //validar que este autorizado para Modificar
-      $this->authorize('modificar', Solicitud_Presupuesto::class);
+      $this->authorize('modificar', Presupuesto::class);
       //Se recuperan los datos del detalle del presupuesto registrado con el ID $idPresu
       $presu = DB::table('presupuestos')
       ->join('detalles_presupuestos','detalles_presupuestos.PresupuestoID','=','presupuestos.PresupuestoID')

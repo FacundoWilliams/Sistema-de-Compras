@@ -1,7 +1,7 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-bold text-xl text-blue-800 leading-tight">
-        {{ __('Asignar Permisos a ') }}{{$rolid}}
+        {{ __('Quitar Permisos a ') }} {{$rolid}}
     </h2>
   </x-slot>
 
@@ -9,8 +9,8 @@
     <div class="col-4">
       <a class="btn btn-danger" href="{{route('rol.menu')}}" role="button">Atras</a>
     </div>
-   
-  <form id="frm-example" action="{{route('rol.asignarPermisos',$rolid)}}" method="POST">
+     
+  <form id="frm-example" action="{{route('rol.quitarPermisos',$rolid)}}" method="POST">
     @csrf 
     <div class="d-flex justify-content-center mt-3"> 
       <button type="submit" class="btn btn-primary">Guardar</button>

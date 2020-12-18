@@ -58,8 +58,11 @@ Route::post('/permisos',[GestionPermisosController::class,'store'])->name('permi
 Route::get('/roles/alta',[GestionRolesController::class,'registro'])->name('rol.registro');
 Route::post('/roles/registraRol',[GestionRolesController::class,'store'])->name('rol.store');
 Route::post('/roles/{rolid}/asignar_permisos',[GestionRolesController::class,'asignarPermisos'])->name('rol.asignarPermisos');
+Route::post('/roles/{rolid}/quitar_permisos',[GestionRolesController::class,'quitarPermisos'])->name('rol.quitarPermisos');
 Route::get('/roles',[GestionRolesController::class,'index'])->name('rol.menu');
 Route::get('/roles/{rolid}/menu_asignar_permisos',[GestionRolesController::class,'verAsignacionPermisos'])->name('rol.verAsignacionPermisos');
+Route::get('/roles/{rolid}/menu_Quitar_permisos',[GestionRolesController::class,'verQuitarPermisos'])->name('rol.verQuitarPermisos');
+Route::get('/roles/{rolid}/permisos',[GestionRolesController::class,'verPermisos'])->name('rol.verPermisos');
 
 
 //Sectores----------------------------------------------------------------------------------------------------------
