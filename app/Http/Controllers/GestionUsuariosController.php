@@ -7,28 +7,20 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Actions\Fortify\PasswordValidationRules;
+use Illuminate\Support\Facades\DB;
+
 
 class GestionUsuariosController extends Controller
 {
     use PasswordValidationRules;
 
-    public function index(){
+    public function menu(){
         //validar que sea Super_Usuario
-        $this->authorize('consultar', User::class);
-        return view('/gestionUsuarios/menuUsuarios');
-    }
-
-    public function show(){
-        //validar que sea Super_Usuario
-        $this->authorize('consultar', User::class);
-        $usuarios = User::paginate();
-        return view('/gestionUsuarios/usuarios/consulta',compact('usuarios'));
-    }
-
-    public function alta(){
-        //validar que sea Super_Usuario
-        $this->authorize('alta', User::class);
-        return view('/gestionUsuarios/usuarios/alta');
+        $this->authorize('consultar', Sector::class);
+        $usuarios = User::all()
+        ->where('Activo',1);
+        return view('gestionUsuarios/usuarios/menu')
+        ->with('usuarios',$usuarios);
     }
 
     public function store(Request $request){
@@ -45,33 +37,54 @@ class GestionUsuariosController extends Controller
         $usuario->name = $request->name;
         $usuario->email = $request->email;
         $usuario->password = Hash::make($request['password']);
-        $usuario->Legajo = $request->legajo;
-        //$usuario->Activo = 1;
+        $usuario->Legajo = $request->legajo;      
 
         //Se guardan los datos en la BD
         $usuario->save();
 
         //Regresa a la vista anterior
-        return redirect()->route('usuario.consulta');
+        return redirect()->route('usuario.menu')->with('success','Usuario creado exitosamente');
     }
 
-    /*
-    Descripción: Eliminación lógica. El método recibe como argumento un objeto usuario que se desea eliminar,
-    actualiza el valor del atributo activo seteando dicho valor a 0, guarda los cambios en la BD
-    y retorna a la vista de consultas.
-    Autor: Maximiliano Robledo
-    Fecha: 19/11/2020
-    Version: 1.0
-    Argumento $usuario
-    */
-    public function destroy(User $usuario){
+    public function eliminar(Request $request){
         //validar que sea Super_Usuario
         $this->authorize('baja', User::class);
-        $usuario->Activo = 0;
-        $usuario->save();
-        return redirect()->route('usuario.consulta')->with('eliminar','ok');
-        //return $usuario;
-        //$usuario->delete();
+        DB::table('users')
+        ->where('users.id',$request->id)       
+        ->update(['Activo'=> 0]);   
+        return redirect()->route('usuario.menu')->with('success','Usuario eliminado exitosamente'); 
     }
 
+    public function alta(){
+        //validar que sea Super_Usuario
+        $this->authorize('alta', User::class);
+        return view('/gestionUsuarios/usuarios/alta');
+    }
+
+    public function editar(Request $request){
+        //return $request;
+        $usuario = User::find($request->name);
+        DB::table('users')
+        ->where('users.name',$request->name)       
+        ->update(['email'=> $request->email, 'password'=> $request->password]);  
+        //Regresa a la vista de consultas
+        return redirect()->route('usuario.menu')->with('success','Usuario actualizado exitosamente'); ;
+    }
+
+
+    //Los metodos siguientes no son necesarios. 
+    /*public function index(){
+        //validar que sea Super_Usuario
+        $this->authorize('consultar', User::class);
+        return view('/gestionUsuarios/menuUsuarios');
+    }*/
+
+    /*public function show(){
+        //validar que sea Super_Usuario
+        $this->authorize('consultar', User::class);
+        $usuarios = User::paginate();
+        return view('/gestionUsuarios/usuarios/consulta',compact('usuarios'));
+    }*/
+
+    
 }

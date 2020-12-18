@@ -32,17 +32,22 @@ Route::get('/informes', [PageController::class, 'construction'])->name('informes
 Route::get('/configuracion', [PageController::class, 'construction'])->name('configuracion');
 
 //Usuarios--------------------------------------------------------------------------------------------------------------
+Route::get('/usuario/menu', [GestionUsuariosController::class, 'menu'])->name('usuario.menu');
 Route::get('/usuarios/alta', [GestionUsuariosController::class, 'alta'])->name('usuario.alta');
-Route::post('/usuarios', [GestionUsuariosController::class, 'store'])->name('usuario.store');
-Route::delete('/usuarios/{usuario}', [GestionUsuariosController::class, 'destroy'])->name('usuario.baja');
-Route::put('/usuarios/{usuario}', [GestionUsuariosController::class, 'update'])->name('usuario.modificacion');
-Route::get('/usuarios/consulta', UsuarioComponent::class)->name('usuario.consulta'); 
+Route::post('/usuario/registro', [GestionUsuariosController::class, 'store'])->name('usuario.registro');
+Route::put('/usuario/editar',[GestionUsuariosController::class, 'editar'])->name('usuario.editar');
+Route::put('/usuario/eliminar', [GestionUsuariosController::class, 'eliminar'])->name('usuario.eliminar');
+//Route::post('/usuarios', [GestionUsuariosController::class, 'store'])->name('usuario.store');
+//Route::delete('/usuarios/{usuario}', [GestionUsuariosController::class, 'destroy'])->name('usuario.baja');
+//Route::put('/usuarios/{usuario}', [GestionUsuariosController::class, 'update'])->name('usuario.modificacion');
+//Route::get('/usuarios/consulta', UsuarioComponent::class)->name('usuario.consulta'); 
+
 
 //Personas--------------------------------------------------------------------------------------------------------------
 Route::get('/personas/menu', [GestionPersonasController::class, 'menu'])->name('personas.menu');
 Route::post('/personas/registro', [GestionPersonasController::class, 'store'])->name('persona.registro');
-Route::post('/persona',[GestionPersonasController::class,'store'])->name('persona.store');
 Route::put('/persona/editar',[GestionPersonasController::class, 'editar'])->name('persona.editar');
+Route::put('/persona/eliminar', [GestionPersonasController::class, 'eliminar'])->name('persona.eliminar');
 
 
 //Permisos--------------------------------------------------------------------------------------------------------------
@@ -55,10 +60,13 @@ Route::post('/roles/registraRol',[GestionRolesController::class,'store'])->name(
 Route::post('/roles/{rolid}/asignar_permisos',[GestionRolesController::class,'asignarPermisos'])->name('rol.asignarPermisos');
 Route::get('/roles',[GestionRolesController::class,'index'])->name('rol.menu');
 Route::get('/roles/{rolid}/menu_asignar_permisos',[GestionRolesController::class,'verAsignacionPermisos'])->name('rol.verAsignacionPermisos');
+
+
 //Sectores----------------------------------------------------------------------------------------------------------
 Route::get('/sectores/menu',[GestionSectoresController::class,'menu'])->name('sector.menu');
-Route::get('/sectores/alta',[GestionSectoresController::class,'registro'])->name('sector.registro');
-Route::post('/sectores',[GestionSectoresController::class,'store'])->name('sector.store');
+Route::post('/sectores/registro',[GestionSectoresController::class,'store'])->name('sector.registro');
+Route::put('/sectores/editar',[GestionSectoresController::class, 'editar'])->name('sector.editar');
+Route::put('/sectores/eliminar',[GestionSectoresController::class, 'eliminar'])->name('sector.eliminar');
 
 
 //Gestión de Articulos-----------------------------------------------------------------------------------------------

@@ -5,7 +5,7 @@
         </h2>
     </x-slot>
 
-    <div class="container-lg mx-auto mt-2">
+    <div class="container-lg mx-auto mt-2">        
         <div class="row">  
             <div class="col-5">
               <a class="btn btn-danger" href="{{route('gestionUsuarios')}}" role="button">Atras</a>
@@ -16,6 +16,22 @@
           </div>      
 
         <div class="container-lg sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">
+            @if (session('success'))
+            <div class="alert alert-success" role="success">
+              <strong>{{ session('success') }}</strong>
+              <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>       
+            @endif
+            @if (session('error'))
+                <div class="alert alert-danger" role="alert">
+                <strong>{{ session('error') }}</strong>
+                <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+            @endif  
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
                     <tr class="bg-blue-50">  
@@ -43,12 +59,14 @@
                             data-mail="{{$p->Mail}}"
                             data-dni="{{$p->DNI}}"
                             data-cuil="{{$p->Cuil}}"
-                            data-direccion="{{$p->Direccion}}"
-                            >
+                            data-direccion="{{$p->Direccion}}">
                                 Editar
                             </button>
                             <!-- Boton trigger modal eliminar -->
-                            <button type="button" class="btn btn-outline-danger btn-sm px-2" data-toggle="modal" data-target="#modalEliminar">
+                            <button type="button" class="btn btn-outline-danger btn-sm px-2" data-toggle="modal" data-target="#modalEliminar"
+                            data-legajo={{$p->Legajo}}
+                            data-nombre="{{$p->Nombre}}"
+                            data-apellido="{{$p->Apellido}}">
                                 Eliminar
                             </button>
                         </td>                            
@@ -66,7 +84,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Alta de Proveedor</h5>        
+          <h5 class="modal-title" id="exampleModalLongTitle">Alta de Persona</h5>        
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -84,23 +102,23 @@
             <div class="form-group row">        
                 <div class="col">       
                     <label for="#nombre">Nombre</label>              
-                    <input class="form-control" type="text" id="nombre" name="nombre" required>             
+                    <input class="form-control" type="text" id="nombre" name="nombre" pattern="[a-zA-Z ]+" maxlength="30" required>             
                 </div>
             </div>   
             <div class="form-group row">        
                 <div class="col">       
                     <label for="#apellido">Apellido</label>              
-                    <input class="form-control" type="text" id="apellido" name="apellido" required>             
+                    <input class="form-control" type="text" id="apellido" name="apellido" pattern="[a-zA-Z ]+" maxlength="30" required>             
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
                     <label for="#dni">DNI</label>
-                    <input class="form-control" type="text" id="dni" name="dni" required>              
+                    <input class="form-control" type="text" id="dni" name="dni" pattern="[a-zA-Z0-9]+" maxlength="8" required>              
                 </div>                   
                 <div class="col">
                     <label for="#cuil">CUIL</label>
-                    <input class="form-control" type="text" id="cuil" name="cuil" required>              
+                    <input class="form-control" type="text" id="cuil" name="cuil" pattern="[0-9]+" maxlength="13" required>              
                 </div>              
             </div>      
             <div class="form-group row">     
@@ -110,13 +128,13 @@
                 </div>           
                 <div class="col">
                     <label for="#telefono">Telefono</label>
-                    <input class="form-control" type="text" id="telefono" name="telefono" required>  
+                    <input class="form-control" type="text" id="telefono" name="telefono" pattern="[0-9]+" maxlength="20" required>  
                 </div>                        
             </div>            
             <div class="form-group row"> 
                 <div class="col">
                     <label for="#direccion">Direccion</label>
-                    <input class="form-control" type="text" id="dir" name="dir" required>  
+                    <input class="form-control" type="text" id="dir" name="dir" maxlength="50" required>  
                 </div>                           
             </div> 
         </div>
@@ -134,18 +152,18 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Eliminar proveedor</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">Eliminar Persona</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form action={{route('gestionProveedores.eliminar')}} method="POST">
+        <form action={{route('persona.eliminar')}} method="POST">
           @csrf 
           @method('put')
         <div class="modal-body">
-          <input class="form-control" type="hidden" id="id" name="id">   
+            <input class="form-control" type="hidden" id="legajo" name="legajo">                                                  
           <p class="text-center">
-            ¿Estás seguro que deseas eliminar el siguiente proveedor?
+            ¿Estás seguro que deseas eliminar la siguiente persona?
           </p>
           <h5 class="text-center"></h5>       
         </div>
@@ -163,7 +181,7 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Editar persona</h5>        
+          <h5 class="modal-title" id="exampleModalLongTitle">Editar Persona</h5>        
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -174,28 +192,27 @@
         <div class="modal-body">    
             <input class="form-control" type="hidden" id="legajo" name="legajo">                                                  
             <div class="form-group row">        
-                <div class="col">
-                    <input class="form-control" type="hidden" id="legajo" name="legajo">                                      
+                <div class="col">       
                     <label for="#nombre">Nombre</label>              
-                    <input class="form-control" type="text" id="nombre" name="nombre" required>             
+                    <input class="form-control" type="text" id="nombre" name="nombre" pattern="[a-zA-Z ]+" maxlength="8" required>             
                 </div>
-            </div>               
+            </div>   
             <div class="form-group row">        
                 <div class="col">       
                     <label for="#apellido">Apellido</label>              
-                    <input class="form-control" type="text" id="apellido" name="apellido" required>             
+                    <input class="form-control" type="text" id="apellido" name="apellido" pattern="[a-zA-Z ]+" maxlength="30" required>             
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
                     <label for="#dni">DNI</label>
-                    <input class="form-control" type="text" id="dni" name="dni" required>              
+                    <input class="form-control" type="text" id="dni" name="dni" pattern="[a-zA-Z0-9]+" maxlength="8" required>              
                 </div>                   
                 <div class="col">
                     <label for="#cuil">CUIL</label>
-                    <input class="form-control" type="text" id="cuil" name="cuil" required>              
+                    <input class="form-control" type="text" id="cuil" name="cuil" pattern="[0-9]+" maxlength="13" required>              
                 </div>              
-            </div> 
+            </div>      
             <div class="form-group row">     
                 <div class="col">
                     <label for="#mail">Email</label>
@@ -203,15 +220,15 @@
                 </div>           
                 <div class="col">
                     <label for="#telefono">Telefono</label>
-                    <input class="form-control" type="text" id="telefono" name="telefono" required>  
+                    <input class="form-control" type="text" id="telefono" name="telefono" pattern="[0-9]+" maxlength="20" required>  
                 </div>                        
-            </div> 
+            </div>            
             <div class="form-group row"> 
                 <div class="col">
                     <label for="#direccion">Direccion</label>
-                    <input class="form-control" type="text" id="dir" name="dir" required>  
+                    <input class="form-control" type="text" id="dir" name="dir" maxlength="50" required>  
                 </div>                           
-            </div>          
+            </div>      
         </div>
   
         <div class="modal-footer">
@@ -257,10 +274,12 @@
 <!--Script del modal eliminar -->
 <script> 
     $('#modalEliminar').on('show.bs.modal', function(e) {
-        var id = $(e.relatedTarget).data('id');
-        var razon_social = $(e.relatedTarget).data('razon_social');    
-        $(e.currentTarget).find('#id').val(id);
-        $(".modal-body h5").text(razon_social);
+        var legajo = $(e.relatedTarget).data('legajo');
+        var nombre = $(e.relatedTarget).data('nombre');  
+        var apellido = $(e.relatedTarget).data('apellido'); 
+        var persona = nombre + " " + apellido;
+        $(e.currentTarget).find('#legajo').val(legajo);
+        $(".modal-body h5").text(persona);
     });
 </script>
 

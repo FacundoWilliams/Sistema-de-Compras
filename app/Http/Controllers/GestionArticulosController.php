@@ -32,7 +32,8 @@ class GestionArticulosController extends Controller
    public function menu(){
      //validar que este autorizado para la consulta
      $this->authorize('consultar', Articulo::class);
-      $articulos = Articulo::all();
+      $articulos = Articulo::all()
+      ->where('Activo',1);
       return view('gestionArticulos/menu')
       ->with('articulos',$articulos);    
    } 
