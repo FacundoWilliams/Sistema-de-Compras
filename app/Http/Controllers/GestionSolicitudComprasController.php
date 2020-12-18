@@ -34,12 +34,15 @@ class GestionSolicitudComprasController extends Controller
        //validar que este autorizado para el Alta
        $this->authorize('alta', Solicitud_Compras::class);
        $solCompra = Solicitud_Compras::max('SolicitudCompraID');    
+
+
        $articulos = DB::table('articulos')
        ->join('articulo_proveedor','articulos.ArticuloID','=','articulo_proveedor.ArticuloID')
+       ->join('proveedores','proveedores.ProveedorID','=','articulo_proveedor.ProveedorID')
        ->where('articulo_proveedor.FechaHasta',NULL)    
-       ->where('Activo',1)
+       ->where('articulos.Activo',1)
+       ->where('proveedores.Activo',1)
        ->get();
-
        $unicos = $articulos->unique('ArticuloID');
        
       // return $unicos;

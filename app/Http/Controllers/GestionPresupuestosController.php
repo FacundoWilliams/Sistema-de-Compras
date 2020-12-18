@@ -68,6 +68,8 @@ class GestionPresupuestosController extends Controller
       ->join('articulos','detalles_solicitud_compras.ArticuloID','=','articulos.ArticuloID')
       ->join('articulo_proveedor','detalles_solicitud_compras.ArticuloID','=','articulo_proveedor.ArticuloID')
       ->join('proveedores','articulo_proveedor.ProveedorID','=','proveedores.ProveedorID')
+      ->where('articulos.Activo',1)
+      ->where('proveedores.Activo',1)
       ->where('SolicitudCompraID',$solicitud)->get();
       
       //Obtengo los articulos de ls detalles de solciitudes de Presupuestos
@@ -92,7 +94,7 @@ class GestionPresupuestosController extends Controller
           $i++;
         }
       }
-      
+      return $art;
       return view('/gestionCompras/presupuestos/solicitarPresup')
       ->with('artSolicitados' ,$art)
       ->with('solicitud', $solicitud);
