@@ -9,11 +9,15 @@ use Sectores;
 class GestionSectoresController extends Controller
 {
     public function registro(){
+        //validar que sea Super_Usuario
+        $this->authorize('alta', Sector::class);
         return view('/gestionUsuarios/sectores/registroSector');
     }
 
     //Almacena los datos del formulario
     public function store( Request $request){
+       //validar que sea Super_Usuario
+       $this->authorize('alta', Sector::class);
        $sector = new Sector();
        $sector->descripcion=$request->descripcion;
        $sector->persona_a_cargo=$request->percargo + 0;
@@ -22,6 +26,8 @@ class GestionSectoresController extends Controller
     }
 
     public function menu(){
+        //validar que sea Super_Usuario
+        $this->authorize('consultar', Sector::class);
         $sectores = Sector::all();
         return view('gestionUsuarios/sectores/menu')
         ->with('sectores',$sectores);  

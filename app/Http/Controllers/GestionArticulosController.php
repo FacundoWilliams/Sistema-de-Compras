@@ -30,30 +30,40 @@ class GestionArticulosController extends Controller
    }*/
 
    public function menu(){
+     //validar que este autorizado para la consulta
+     $this->authorize('consultar', Articulo::class);
       $articulos = Articulo::all();
       return view('gestionArticulos/menu')
       ->with('articulos',$articulos);    
    } 
 
    public function puntoPedido(){
+      //validar que este autorizado para la consulta
+      $this->authorize('consultar', Articulo::class);
       $articulos = Articulo::all();
       return view('gestionInventario/puntoPedido')
       ->with('articulos',$articulos);    
    }
 
    public function ajustarInventario(){
+       //validar que este autorizado para la consulta
+       $this->authorize('consultar', Articulo::class);
       $articulos = Articulo::all();
       return view('gestionInventario/ajustarInventario')
       ->with('articulos',$articulos);    
    }
 
    public function registrarRecepcion(){
+       //validar que este autorizado para la consulta
+       $this->authorize('consultar', Articulo::class);
       $articulos = Articulo::all();
       return view('gestionInventario/registrarRecepcion')
       ->with('articulos',$articulos);    
    }
 
    public function verificarInventario(){
+       //validar que este autorizado para la consulta
+       $this->authorize('consultar', Articulo::class);
       $articulos = Articulo::all();
       return view('gestionInventario/verificarInventario')
       ->with('articulos',$articulos);    
@@ -61,6 +71,9 @@ class GestionArticulosController extends Controller
 
    //Almacena los datos del formulario
    public function alta(Request $request){
+      //validar que este autorizado para la consulta
+      $this->authorize('alta', Articulo::class);
+
       $articulo = new Articulo();
       $articulo->Descripcion =$request->descripcion;
       $articulo->Tipo_embalaje =$request->tipo_embalaje;
@@ -80,6 +93,9 @@ class GestionArticulosController extends Controller
     * Función que edita un articulo existente, actualiza la base de datos y retorna la vista al menu principal. 
     */
    public function editar(Request $request){        
+      //validar que este autorizado para la consulta
+      $this->authorize('modificar', Articulo::class); 
+
       $articulo = Articulo::find($request->id);
       $articulo->Descripcion =$request->descripcion;
       $articulo->Tipo_embalaje =$request->tipo_embalaje;
@@ -99,7 +115,10 @@ class GestionArticulosController extends Controller
     * condición necesaria para que se genere una solicitud de compra
     */
    public function eliminar(Request $request){        
-      //$articulo = Articulo::find($request->id);
+       //validar que este autorizado para la consulta
+       $this->authorize('baja', Articulo::class);
+
+
       $articulo = DB::table('articulos')
       ->join('articulo_proveedor','articulos.ArticuloID','=','articulo_proveedor.ArticuloID')
       ->where('articulos.ArticuloID',$request->id)
@@ -121,7 +140,9 @@ class GestionArticulosController extends Controller
     * articuloID: ID del artículo al cual se le quiere asignar proveedores.
     * request: proveedores seleccionados a asignar al articulo.
     */
-   public function asignarProveedor(Request $request, $articuloID){            
+   public function asignarProveedor(Request $request, $articuloID){  
+      //validar que este autorizado para la Vinculacion de Artículos
+      $this->authorize('vincular', Articulo_Proveedor::class);           
        //obtengo los datos que necesito año-mes-dia
        $tiempo=getdate();
        $fechahoy=$tiempo['year'].'-'. $tiempo['mon'].'-'.$tiempo['mday'];
@@ -159,6 +180,8 @@ class GestionArticulosController extends Controller
     * Funcion que se encarga de desasignar proveedores para un Articulo
     */
     public function desasignarProveedor(Request $request, $articuloID){
+        //validar que este autorizado para la Vinculacion de Artículos
+        $this->authorize('desvincular', Articulo_Proveedor::class);  
        //obtengo los datos que necesito año-mes-dia
        $tiempo=getdate();
        $fechahoy=$tiempo['year'].'-'. $tiempo['mon'].'-'.$tiempo['mday'];
@@ -177,6 +200,8 @@ class GestionArticulosController extends Controller
    * con todos los proveedores posibles que se pueden vincular a dicho artículo.
    */
    public function vincularProveedor($ArticuloID){
+      //validar que este autorizado para la Vinculacion de Artículos
+      $this->authorize('vincular', Articulo_Proveedor::class);  
       $articulo = Articulo::find($ArticuloID); 
       $proveedores = Proveedor::all();
       return view('/gestionArticulos/articulos/vincularProveedor')
@@ -189,6 +214,8 @@ class GestionArticulosController extends Controller
     * con todos los proveedores vinculados para tal artículo.
     */
    public function desvincularProveedor($ArticuloID){
+      //validar que este autorizado para la Vinculacion de Artículos
+      $this->authorize('desvincular', Articulo_Proveedor::class); 
       $articulo = Articulo::find($ArticuloID); 
       //Recupera una lista de los proveedores vinculados con el articulo recibido de la tabla articulo_proveedor
       $proveedores= DB::table('proveedores')
@@ -208,7 +235,9 @@ class GestionArticulosController extends Controller
    * recupera el articulo de la tabla articulos con el ArticuloID enviado y actualiza el campo de
    * punto de pedido del articulo con el valor del nuevo punto de pedido.
    */
-   public function establecer(Request $request){              
+   public function establecer(Request $request){   
+      //validar que este autorizado para la Vinculacion de Artículos
+      $this->authorize('modificar', Articulo::class);                  
       $articulo = Articulo::find($request->id);
       $articulo->Punto_pedido = $request->punto_pedido_nuevo;        
       //Se actualizan los datos en la BD
@@ -224,7 +253,9 @@ class GestionArticulosController extends Controller
    * recupera el articulo de la tabla articulos con el ArticuloID enviado y actualiza el campo de
    * stock disponible del articulo con el valor recicibo de ajuste.
    */
-   public function ajustar(Request $request){        
+   public function ajustar(Request $request){   
+       //validar que este autorizado para la Vinculacion de Artículos
+       $this->authorize('modificar', Articulo::class);        
       $articulo = Articulo::find($request->id);      
       $articulo->Stock_disponible += $request->ajuste;         
       //Se actualizan los datos en la BD

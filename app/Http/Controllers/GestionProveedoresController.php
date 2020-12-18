@@ -9,13 +9,17 @@ class GestionProveedoresController extends Controller
 {
     
     public function menu(){
+         //validar que este autorizado para la consulta
+        $this->authorize('consultar', Proveedor::class);
         $proveedores = Proveedor::all();
         return view('gestionProveedores/menu')
         ->with('proveedores',$proveedores);    
      }
 
     //Almacena los datos del formulario
-    public function alta( Request $request){
+    public function alta( Request $request){ 
+        //validar que este autorizado para el Alta
+        $this->authorize('alta', Proveedor::class);
         $proveedor = new Proveedor();
         $proveedor->Nombre = $request->nombre;
         $proveedor->Razon_social = $request->razon_social;
@@ -36,8 +40,10 @@ class GestionProveedoresController extends Controller
     /**
     * Función que elimina de manera lógica un proveedor.
     */
-    public function eliminar(Request $request){            
-        //return $request;
+    public function eliminar(Request $request){  
+        //validar que este autorizado para la Baja
+        $this->authorize('baja', Proveedor::class);          
+   
         $proveedor = Proveedor::find($request->id);
         $proveedor->Activo=0;
         //Se guardan los datos en la BD
@@ -49,7 +55,9 @@ class GestionProveedoresController extends Controller
      /**
     * Función que edita un proveedor existente, actualiza la base de datos y retorna la vista al menu principal. 
     */
-    public function editar(Request $request){       
+    public function editar(Request $request){    
+         //validar que este autorizado para la Modificación
+         $this->authorize('modificar', Proveedor::class);   
         $proveedor = Proveedor::find($request->id);
         $proveedor->Nombre = $request->nombre;
         $proveedor->Razon_social = $request->razon_social;       

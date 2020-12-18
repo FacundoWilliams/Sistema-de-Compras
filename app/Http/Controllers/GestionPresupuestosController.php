@@ -20,6 +20,9 @@ use App\Models\Solicitud_Presupuesto_Proveedor;
 class GestionPresupuestosController extends Controller
 {
     public function index(){
+      //validar que este autorizado para la Consulta
+      $this->authorize('consultar', Solicitud_Presupuesto::class);
+
       $solicitudes = DB::table('solicitud_compras')
       ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
       ->where('EstadoID','Pendiente')->get();
@@ -27,7 +30,11 @@ class GestionPresupuestosController extends Controller
       ->with('solicitudes' ,$solicitudes);  
     }
     
+
+
     public function solicitudesPresupuesto($solicitud){
+      //validar que este autorizado para la Consulta
+      $this->authorize('consultar', Solicitud_Presupuesto::class);
       $fecha = DB::table('solicitud_compras')
       ->where('SolicitudCompraID',$solicitud)->value('FechaRegistro');      
 
@@ -53,6 +60,8 @@ class GestionPresupuestosController extends Controller
     }
 
     public function solicitarPresupuesto($solicitud){
+      //validar que este autorizado para la Alta
+      $this->authorize('alta', Solicitud_Presupuesto::class);
       $art=array();
       //Obtengo los articulos que tienen proveedores vinculados
       $artSolicitados = DB::table('detalles_solicitud_compras')
@@ -91,6 +100,8 @@ class GestionPresupuestosController extends Controller
 
 
     public function registrarSolicitud(Request $request, $solicitud){
+       //validar que este autorizado para la Alta
+     $this->authorize('alta', Solicitud_Presupuesto::class);
     //redirige a la vista de solicitudes de Presupuesto, si no existen arituclos a solicitar
      if($request->id==null){
       //aca va la alerta que indicara que no hay mas articulos a asolicitar
@@ -210,6 +221,8 @@ class GestionPresupuestosController extends Controller
     }
 
     public function detallePresuSolicitado($idSol){
+      //validar que este autorizado para la Consulta
+      $this->authorize('consultar', Solicitud_Presupuesto::class);
       $sol = DB::table('solicitudes_presupuestos')
       ->join('users','solicitudes_presupuestos.AdminComprasID','=','users.id')
       ->where('SolicitudPresupuestoID',$idSol)->get();
@@ -228,6 +241,8 @@ class GestionPresupuestosController extends Controller
      * Función que recupera los datos de detalle de un presupuesto registrado.
      */
     public function detallePresuRegistrado($idPresu){
+       //validar que este autorizado para la Consulta
+       $this->authorize('consultar', Presupuesto::class);
       //Se recuperan los datos del detalle del presupuesto registrado con el ID $idPresu
       $presu = DB::table('presupuestos')
       ->join('detalles_presupuestos','detalles_presupuestos.PresupuestoID','=','presupuestos.PresupuestoID')
@@ -264,6 +279,8 @@ class GestionPresupuestosController extends Controller
     }
 
     public function altaPresupuesto($idSol){
+       //validar que este autorizado para la Alta
+       $this->authorize('alta', Presupuesto::class);
       $detalle = DB::table('deta_soli_presu')
       ->join('proveedores','proveedores.ProveedorID','=','deta_soli_presu.ProveID')
       ->join('articulos','articulos.ArticuloID','=','deta_soli_presu.ArtiID')
@@ -278,6 +295,8 @@ class GestionPresupuestosController extends Controller
     }
 
     public function registrarPresupuesto(Request $request, $idSol){
+        //validar que este autorizado para el Alta
+        $this->authorize('alta', Presupuesto::class);
       //Se crea el presupuesto en la BD 
       $presupuesto = new Presupuesto();
       $presupuesto->NroPresupuesto=$request->presuNro;
@@ -333,6 +352,8 @@ class GestionPresupuestosController extends Controller
      * esa solicitud de compra y retorna la información a la vista correspondiente
      */
     public function presupuestosRegistrados($idSol){
+      //validar que este autorizado para la Consulta
+      $this->authorize('consultar', Presupuesto::class);
       //Se recuperan todos los presupuestos registrados en respuesta a cada solicitud de presupuestos asociados con esta solicitud de compra
       $presu_regi = DB::table('solicitudes_presupuestos')
       ->join('presupuestos','presupuestos.SoliPresuID','=','solicitudes_presupuestos.SolicitudPresupuestoID')
@@ -358,6 +379,8 @@ class GestionPresupuestosController extends Controller
      * para la posterior seleccion.
      */
     public function seleccionPresuRegistrado($idPresu){
+      //validar que este autorizado para Modificar
+      $this->authorize('modificar', Solicitud_Presupuesto::class);
       //Se recuperan los datos del detalle del presupuesto registrado con el ID $idPresu
       $presu = DB::table('presupuestos')
       ->join('detalles_presupuestos','detalles_presupuestos.PresupuestoID','=','presupuestos.PresupuestoID')
@@ -408,6 +431,8 @@ class GestionPresupuestosController extends Controller
      * su correspondiente detalle.
      */
     public function seleccionarDetallePresupuestoRegistrado(Request $request){
+       //validar que este autorizado para la Consulta
+       $this->authorize('alta', Orden_Compra::class);
       //Se controla que si no se seleccionaron articulos, no se debe crear una orden de compra, se debe alertar al usuario y retornar a la vista actual
       if($request->id == NULL)
         return redirect()->route('compras.presupuestosRegistrados.seleccionPresuRegistrado',$request->presupuesto)->with('error','No se seleccionaron artículos para comprar.');

@@ -13,19 +13,27 @@ class GestionUsuariosController extends Controller
     use PasswordValidationRules;
 
     public function index(){
+        //validar que sea Super_Usuario
+        $this->authorize('consultar', User::class);
         return view('/gestionUsuarios/menuUsuarios');
     }
 
     public function show(){
+        //validar que sea Super_Usuario
+        $this->authorize('consultar', User::class);
         $usuarios = User::paginate();
         return view('/gestionUsuarios/usuarios/consulta',compact('usuarios'));
     }
 
     public function alta(){
+        //validar que sea Super_Usuario
+        $this->authorize('alta', User::class);
         return view('/gestionUsuarios/usuarios/alta');
     }
 
     public function store(Request $request){
+        //validar que sea Super_Usuario
+        $this->authorize('alta', User::class);
         $usuario = new User();
     
         Validator::make($request->all(), [
@@ -57,6 +65,8 @@ class GestionUsuariosController extends Controller
     Argumento $usuario
     */
     public function destroy(User $usuario){
+        //validar que sea Super_Usuario
+        $this->authorize('baja', User::class);
         $usuario->Activo = 0;
         $usuario->save();
         return redirect()->route('usuario.consulta')->with('eliminar','ok');

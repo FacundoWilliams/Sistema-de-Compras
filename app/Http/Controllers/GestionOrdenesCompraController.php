@@ -11,6 +11,8 @@ use App\Models\Estado_Orden_Compra;
 class GestionOrdenesCompraController extends Controller
 {
     public function index(){
+      //validar que sea Super_Usuario
+      $this->authorize('consultar', Orden_Compra::class);
       $ordenes = DB::table('ordenes_compras')
       ->join('estados_ordenes_compras','estados_ordenes_compras.OrdenCompraID','=','ordenes_compras.OrdenCompraID')
       ->join('presupuestos','presupuestos.PresupuestoID','=','ordenes_compras.PresuID')
@@ -23,6 +25,9 @@ class GestionOrdenesCompraController extends Controller
     }
 
     public function verDetalle($idOC){
+      //validar que sea Super_Usuario
+      $this->authorize('consultar', Orden_Compra::class);
+
       $detalle = DB::table('ordenes_compras')
       ->join('detalles_orden_compra','detalles_orden_compra.OrdenCompraID','=','ordenes_compras.OrdenCompraID')
       ->join('articulos','articulos.ArticuloID','=','detalles_orden_compra.ArticuloID')
@@ -36,7 +41,6 @@ class GestionOrdenesCompraController extends Controller
 
       $estado = DB::table('estados_ordenes_compras')
       ->where('estados_ordenes_compras.OrdenCompraID',$idOC)
-      ->whereNotNull('IDAprobador')
       ->get();
      
       $estado_algo = $estado[0]->EstadoID;
@@ -71,6 +75,8 @@ class GestionOrdenesCompraController extends Controller
      * y del monto total de la orden de compra.
      */
     public function aprobar(Request $request){
+      //validar que sea Super_Usuario
+      $this->authorize('modificar', Orden_Compra::class);
       //Se recupera la orden de compra de id idOC
       $orden= Orden_Compra::find($request->id);
 
@@ -135,6 +141,8 @@ class GestionOrdenesCompraController extends Controller
      * y del monto total de la orden de compra.
      */
     public function rechazar(Request $request){
+      //validar que sea Super_Usuario
+      $this->authorize('modificar', Orden_Compra::class);
       //Se recupera la orden de compra de id idOC
       $orden= Orden_Compra::find($request->id);
 

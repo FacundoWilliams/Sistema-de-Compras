@@ -14,6 +14,8 @@ class GestionSolicitudComprasController extends Controller
 {
  
    public function index(){
+       //validar que este autorizado para la Consulta
+       $this->authorize('consultar', Solicitud_Compras::class);
       $solicitudes = DB::table('solicitud_compras')
       ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
       ->where('EstadoID','Pendiente')->get();
@@ -29,6 +31,8 @@ class GestionSolicitudComprasController extends Controller
     * 3 - Se debe contemplar los articulos sin repeticiones
     */
    public function seleccionarArticulos(){
+       //validar que este autorizado para el Alta
+       $this->authorize('alta', Solicitud_Compras::class);
        $solCompra = Solicitud_Compras::max('SolicitudCompraID');    
        $articulos = DB::table('articulos')
        ->join('articulo_proveedor','articulos.ArticuloID','=','articulo_proveedor.ArticuloID')
@@ -45,9 +49,8 @@ class GestionSolicitudComprasController extends Controller
     }
     
     public function registrarSolicitudCompra(Request $request){
-      
-      $this->authorize('create', Solicitud_Compras::class);
-
+      //validar que este autorizado para el Alta
+      $this->authorize('alta', Solicitud_Compras::class);
 
       //Se crea la Nueva Solicitud de Compra
       $sol=new Solicitud_Compras();
@@ -87,6 +90,8 @@ class GestionSolicitudComprasController extends Controller
    }
 
    public function cantidadArticulos(Request $request){
+      //validar que este autorizado para el Alta
+      $this->authorize('alta', Solicitud_Compras::class);
       $i=0;
       $artSolicitados=array();//Defino el array que guardara los articulos solicitados
       //recorro los ids recuperados de la vista anterior y los voy guardando en el array
@@ -103,6 +108,9 @@ class GestionSolicitudComprasController extends Controller
     * a la vista correspondiente para su visualización.
     */
    public function detalle(Request $request){      
+      //validar que este autorizado para la Consulta
+      $this->authorize('consultar', Solicitud_Compras::class);  
+
       $solicitud = $request->id;
       
       $fecha = DB::table('solicitud_compras')
@@ -134,6 +142,9 @@ class GestionSolicitudComprasController extends Controller
     * el valor del id de administrador de compras sea nulo
     */
    public function eliminar(Request $request){
+      //validar que este autorizado para la Baja
+      $this->authorize('baja', Solicitud_Compras::class);
+
       $estado = DB::table('estados_solicitud_compras')
       ->where('SolicitudCompraID',$request->id)
       ->where('AdminComprasID',NULL)->value('EstadoID');
@@ -155,7 +166,8 @@ class GestionSolicitudComprasController extends Controller
    }
 
    public function editarSolicitudCompra($solicitud){
-      
+      //validar que este autorizado para Modificar
+      $this->authorize('modificar', Solicitud_Compras::class);
       $fecha = DB::table('solicitud_compras')
       ->where('SolicitudCompraID',$solicitud)->value('FechaRegistro');      
 
@@ -177,6 +189,8 @@ class GestionSolicitudComprasController extends Controller
    }
 
    public function actualizar(Request $request, $solicitud){
+      //validar que este autorizado para Modificar
+      $this->authorize('modificar', Solicitud_Compras::class);
       $i=0;
       foreach ($request->ids as $artID){
             DB::table('detalles_solicitud_compras')

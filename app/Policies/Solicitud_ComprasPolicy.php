@@ -17,9 +17,20 @@ class Solicitud_ComprasPolicy {
      * Determina si un usuario puede crear una solicitud de compras, devolviendo true o false en el método.
      * En este caso, se invoca una función sobre el usuario para verificar si posee el rol "admin"
      */
-    public function create(User $user) {
+    public function alta(User $user) {
         return $user->canAltaSC();
     }
+    
+    public function baja(User $user) {
+        return $user->canBajaSC();
+    }
+    public function modificar(User $user) {
+        return $user->canModificarSC();
+    }
+    public function consultar(User $user) {
+        return $user->canConsultaSC();
+    }
+    
 
 
     /**

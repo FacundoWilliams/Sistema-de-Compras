@@ -51,7 +51,7 @@
                     <div class="max-w-sm rounded overflow-hidden shadow-lg pb-10">
                         <img class="rounded mx-auto d-block mb-10 mt-10" src="/img/rol.png" alt="Administración de Roles">
                         <div class="px-4 py-2 mt-4">
-                            <a href="{{ route('rol.registro') }}" class="btn btn-success  bg-gray-300 text-gray-600 font-bold px-2 py-1 rounded-lg  hover:bg-gray-500 hover:text-white">Administración de Roles</a>
+                            <a href="{{ route('rol.menu') }}" class="btn btn-success  bg-gray-300 text-gray-600 font-bold px-2 py-1 rounded-lg  hover:bg-gray-500 hover:text-white">Administración de Roles</a>
                         </div>                  
                     </div>                
                 </div>
