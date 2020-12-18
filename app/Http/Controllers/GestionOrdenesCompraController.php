@@ -84,10 +84,21 @@ class GestionOrdenesCompraController extends Controller
       $id_user =Auth::id();
       $rol_usuario = DB::table('usuarios_roles')
       ->where('UsuarioID',$id_user)
-      ->value('RolID');
+      ->get();
+ 
+      $isUser='';
+     foreach($rol_usuario as $r){
+          if(($r->RolID=='Administrador_de_Compras')and ($isUser!='Directivo')){
+              $isUser='Administrador_de_Compras';
+          }else{
+              if($r->RolID=='Directivo'){
+                $isUser='Directivo';
+            }
+          }
 
+        }
       //Se verifica si el usuario logueado es el administrador de compras y el monto total de la compra es menor a $ 30.000
-      if($rol_usuario == 'Administrador_de_Compras'){
+      if(($isUser=='Administrador_de_Compras')){
         if($orden->Total <= 30000){         
           //Se crea el estado de la orden de compra
           $estado_orden_compra = new Estado_Orden_Compra();
@@ -114,24 +125,30 @@ class GestionOrdenesCompraController extends Controller
           //return "redicionar con mensaje de error";
           //Se retorna a la vista del menu de ordenes de compras
           return redirect()->route('compras.ordenes.verDetalle',$orden->OrdenCompraID)->with('error','El monto total de la Órden de Compra excede su disponibilidad de evaluación.');
-      }
-      if($rol_usuario == 'Directivo'){
-          //Se crea el estado de la orden de compra
-          $estado_orden_compra = new Estado_Orden_Compra();
-          $estado_orden_compra->EstadoID = 'Aprobada';
-          $estado_orden_compra->OrdenCompraID = $orden->OrdenCompraID;
-          $estado_orden_compra->AdminComprasID=Auth::id();
-          $estado_orden_compra->FechaHora = date("Y-n-j"); 
-          $estado_orden_compra->IDAprobador=Auth::id();
-          $estado_orden_compra->save();
+      }else{
+              if($isUser == 'Directivo'){
+                //Se crea el estado de la orden de compra
+                $estado_orden_compra = new Estado_Orden_Compra();
+                $estado_orden_compra->EstadoID = 'Aprobada';
+                $estado_orden_compra->OrdenCompraID = $orden->OrdenCompraID;
+                $estado_orden_compra->AdminComprasID=Auth::id();
+                $estado_orden_compra->FechaHora = date("Y-n-j"); 
+                $estado_orden_compra->IDAprobador=Auth::id();
+                $estado_orden_compra->save();
 
-          DB::table('estados_ordenes_compras')
-          ->where('EstadoID','Pendiente')
-          ->where('OrdenCompraID',$orden->OrdenCompraID)
-          ->update(['IDAprobador'=>Auth::id()]);             
-      
-          return redirect()->route('compras.ordenes')->with('success','Se ha aprobado una Orden de Compra.');
+                DB::table('estados_ordenes_compras')
+                ->where('EstadoID','Pendiente')
+                ->where('OrdenCompraID',$orden->OrdenCompraID)
+                ->update(['IDAprobador'=>Auth::id()]);             
+            
+                return redirect()->route('compras.ordenes')->with('success','Se ha aprobado una Orden de Compra.');
+            }else{
+              return view('/errors/403');
+            }
+          
       }
+
+      
     }
 
 
@@ -146,14 +163,25 @@ class GestionOrdenesCompraController extends Controller
       //Se recupera la orden de compra de id idOC
       $orden= Orden_Compra::find($request->id);
 
-      //Se recupera el id del usuario logueado y se consulta su rol de usuario
-      $id_user =Auth::id();
+       //Se recupera el id del usuario logueado y se consulta su rol de usuario
+       $id_user =Auth::id();
       $rol_usuario = DB::table('usuarios_roles')
       ->where('UsuarioID',$id_user)
-      ->value('RolID');
+      ->get();
+ 
+      $isUser='';
+     foreach($rol_usuario as $r){
+          if(($r->RolID=='Administrador_de_Compras')and ($isUser!='Directivo')){
+              $isUser='Administrador_de_Compras';
+          }else{
+              if($r->RolID=='Directivo'){
+                $isUser='Directivo';
+            }
+          }
 
+      }
       //Se verifica si el usuario logueado es el administrador de compras
-      if($rol_usuario == 'Administrador_de_Compras'){              
+      if(($isUser == 'Administrador_de_Compras') or ($isUser == 'Directivo') ){              
           //Se crea el estado de la orden de compra
           $estado_orden_compra = new Estado_Orden_Compra();
           $estado_orden_compra->EstadoID = 'Rechazada';
@@ -170,6 +198,6 @@ class GestionOrdenesCompraController extends Controller
       
           return redirect()->route('compras.ordenes')->with('success','Se ha rechazado una Orden de Compra.');     
       }
+      return view('/errors/403');
     }
-
 }
