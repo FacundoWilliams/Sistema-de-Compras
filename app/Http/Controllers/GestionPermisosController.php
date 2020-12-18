@@ -8,6 +8,12 @@ use App\Models\Permiso;
 
 class GestionPermisosController extends Controller
 {
+    public function index(){
+        $permiso=Permiso::all();
+        return view('/gestionUsuarios/permisos/menu')
+        ->with('permisos',$permiso);
+    }
+    
     public function registro(){
         //validar que sea Super_Usuario
         $this->authorize('alta', Permiso::class);

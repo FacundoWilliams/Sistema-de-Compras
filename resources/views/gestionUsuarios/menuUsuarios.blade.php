@@ -59,7 +59,7 @@
                 <div class="max-w-sm rounded overflow-hidden shadow-lg pb-10">
                     <img class="rounded mx-auto d-block mt-4 mb-15" src="/img/permisos.png" alt="Administración de Permisos">
                     <div class="text-center px-4 mt-4">
-                        <a href="{{ route('permiso.registro') }}" class="btn btn-dark" >Administración de Permisos</a>                     
+                        <a href="{{ route('permiso.menu') }}" class="btn btn-dark" >Administración de Permisos</a>                     
                     </div>
                 </div>
             </div>

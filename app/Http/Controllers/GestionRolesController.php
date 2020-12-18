@@ -30,7 +30,7 @@ class GestionRolesController extends Controller
 
     public function store(Request $request){
         //validar que sea Super_Usuario
-        $this->authorize('alta', Rol::class);
+        $this->authorize('alta', Rol_Permiso::class);
         $rol = new Rol();
         $rol->RolID =$request->rolID;
         //Se guardan los datos en la BD
@@ -38,7 +38,7 @@ class GestionRolesController extends Controller
      }
      public function verAsignacionPermisos($rolid){
         //validar que sea Super_Usuario
-        $this->authorize('alta', Usuario_Rol::class);
+        $this->authorize('alta', Rol_Permiso::class);
         
         $all_permisos=Permiso::all();
         
@@ -46,7 +46,7 @@ class GestionRolesController extends Controller
         ->join('permisos','permisos.PermisoID','=','roles_permisos.PermisoID')
         ->where('roles_permisos.RolID',$rolid)->get();
 
-        //Recorro todos los permisos y solo guardo los que el usuario no tenga para ser asignados en la vista
+        //Recorro todos los permisos y solo guardo los que el Rol no tenga para ser asignados en la vista
         $per=array();
         $i=0;
         foreach($all_permisos as $a){
@@ -71,7 +71,7 @@ class GestionRolesController extends Controller
 
     public function asignarPermisos(Request $request, $rolid){
         //validar que sea Super_Usuario
-        $this->authorize('alta', Usuario_Rol::class);
+        $this->authorize('alta', Rol_Permiso::class);
         //creamos los vinculos entre usuario y rol
         foreach($request->permisos as $p){
             $rol_p=new Rol_Permiso();
@@ -95,7 +95,7 @@ class GestionRolesController extends Controller
     }
     public function verQuitarPermisos($rolid){
         //validar que sea Super_Usuario
-        $this->authorize('baja', Rol::class);
+        $this->authorize('baja', Rol_Permiso::class);
 
         $permisos=DB::table('roles_permisos')
         ->join('permisos','permisos.PermisoID','=','roles_permisos.PermisoID')
@@ -108,8 +108,8 @@ class GestionRolesController extends Controller
 
     public function quitarPermisos(Request $request, $rolid){
         //validar que sea Super_Usuario
-        $this->authorize('baja', Usuario_Rol::class);
-        //creamos los vinculos entre usuario y rol
+        $this->authorize('baja', Rol_Permiso::class);
+        //creamos los vinculos entre Permiso y rol
 
         foreach($request->permisos as $p){
             DB::table('roles_permisos')

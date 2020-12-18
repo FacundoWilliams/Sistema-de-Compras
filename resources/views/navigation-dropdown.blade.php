@@ -12,11 +12,7 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ml-15 sm:flex">
-                    <x-jet-nav-link href="{{ route('dashboard') }}" :active="request()->routeIs('dashboard')">
-                    <!--"request()->routeIs('dashboard')"-->
-                        {{ __('Menu Principal') }}
-                    </x-jet-nav-link>
-
+                   
                     <x-jet-nav-link href="{{ route('gestionCompras') }}" :active="request()->routeIs('gestionCompras')">
                         Gestion de Compras
                     </x-jet-nav-link>

@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('inicio', function () {
-    return view('inicio');
+    return view('/gestionCompras/menucompras');
 })->name('dashboard');
 
 
@@ -37,6 +37,10 @@ Route::get('/usuarios/alta', [GestionUsuariosController::class, 'alta'])->name('
 Route::post('/usuario/registro', [GestionUsuariosController::class, 'store'])->name('usuario.registro');
 Route::put('/usuario/editar',[GestionUsuariosController::class, 'editar'])->name('usuario.editar');
 Route::put('/usuario/eliminar', [GestionUsuariosController::class, 'eliminar'])->name('usuario.eliminar');
+Route::get('/usuario/{usuarioid}/menu_asignar_rol', [GestionUsuariosController::class, 'verAsignarRol'])->name('usuario.verAsignarRol');
+Route::get('/usuario/{usuarioid}/menu_desasignar_rol', [GestionUsuariosController::class, 'verDesasignarRol'])->name('usuario.verDesasignarRol');
+Route::post('/usuario/{usuarioid}/asignar_roles', [GestionUsuariosController::class, 'asignarRoles'])->name('usuario.asignarRoles');
+Route::post('/usuario/usuarioid/{usuarioid}/desasignar_roles', [GestionUsuariosController::class, 'desasignarRoles'])->name('usuario.desasignarRoles');
 //Route::post('/usuarios', [GestionUsuariosController::class, 'store'])->name('usuario.store');
 //Route::delete('/usuarios/{usuario}', [GestionUsuariosController::class, 'destroy'])->name('usuario.baja');
 //Route::put('/usuarios/{usuario}', [GestionUsuariosController::class, 'update'])->name('usuario.modificacion');
@@ -52,7 +56,8 @@ Route::put('/persona/eliminar', [GestionPersonasController::class, 'eliminar'])-
 
 //Permisos--------------------------------------------------------------------------------------------------------------
 Route::get('/permisos/alta',[GestionPermisosController::class,'registro'])->name('permiso.registro');
-Route::post('/permisos',[GestionPermisosController::class,'store'])->name('permiso.store');
+Route::post('/permisos/registrar',[GestionPermisosController::class,'store'])->name('permiso.store');
+Route::get('/permisos/menu',[GestionPermisosController::class,'index'])->name('permiso.menu');
 
 //Roles--------------------------------------------------------------------------------------------------------------
 Route::get('/roles/alta',[GestionRolesController::class,'registro'])->name('rol.registro');

@@ -65,8 +65,8 @@
                                 Eliminar
                             </button>
                             <td class="text-center">
-                              <a class="btn btn-outline-info btn-sm" href="" role="button">Asignar</a>
-                              <a class="btn btn-outline-danger btn-sm" href="" role="button">Desasignar</a>
+                              <a class="btn btn-outline-info btn-sm" href="{{route('usuario.verAsignarRol',$u->id)}}" role="button">Asignar</a>
+                              <a class="btn btn-outline-danger btn-sm" href="{{route('usuario.verDesasignarRol',$u->id)}}" role="button">Desasignar</a>
                             </td>
                         </td>                            
                     </tr>                                              
