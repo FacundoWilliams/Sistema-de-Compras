@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-12-2020 a las 14:38:04
+-- Tiempo de generación: 18-12-2020 a las 19:01:38
 -- Versión del servidor: 10.4.14-MariaDB
 -- Versión de PHP: 7.4.11
 
@@ -78,7 +78,8 @@ INSERT INTO `articulo_proveedor` (`ArticuloID`, `ProveedorID`, `FechaDesde`, `Fe
 (5, 2, '2020-12-16', NULL),
 (5, 3, '2020-12-16', NULL),
 (6, 2, '2020-12-16', NULL),
-(6, 3, '2020-12-16', NULL);
+(6, 3, '2020-12-16', NULL),
+(7, 1, '2020-12-18', NULL);
 
 -- --------------------------------------------------------
 
@@ -577,7 +578,7 @@ INSERT INTO `permisos` (`PermisoID`, `Descripcion`, `PathAuth`, `created_at`, `u
 ('Modificar_Pres', 'Permite Modificar un  Presupuesto.', '/Pres/Consultar', '2020-12-18 03:33:31', '2020-12-18 03:33:31'),
 ('Modificar_Prov', 'Permite Modificar Proveedores.', '/Prov/Modificar', '2020-12-18 03:10:54', '2020-12-18 03:10:54'),
 ('Modificar_SC', 'Permite Modificar una Solicitud de Compra.', '/SC/Modificar', '2020-12-18 03:26:41', '2020-12-18 03:26:41'),
-('Vincular_ProvAr', 'Permite Vincular Proveedores a un Articulo.', '/ProvAr/Vincularr', '2020-12-18 03:15:34', '2020-12-18 03:15:34');
+('Vincular_ProvAr', 'Permite Vincular un Proveedor a un Articulo.', '/ProvAr/Vincular', '2020-12-18 21:00:01', '2020-12-18 21:00:01');
 
 -- --------------------------------------------------------
 
@@ -833,7 +834,7 @@ CREATE TABLE `sessions` (
 --
 
 INSERT INTO `sessions` (`id`, `user_id`, `ip_address`, `user_agent`, `payload`, `last_activity`) VALUES
-('vlAzIjtWP7w0wS5K8sRFBFKXYiW1kYn1AgbN8HFp', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoiYjI5SlZRcWlGVklPYk5Ca3BXejZ4Y3Qxdkx6cDhCTURkM2ZkbkJvQyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo1MDoibG9naW5fd2ViXzU5YmEzNmFkZGMyYjJmOTQwMTU4MGYwMTRjN2Y1OGVhNGUzMDk4OWQiO2k6MTtzOjE3OiJwYXNzd29yZF9oYXNoX3dlYiI7czo2MDoiJDJ5JDEwJDh2bWFrdXhyVUFuOWR1aVhCYjZibC5IZVZWcmdMbjU4SEV4QjBsc3k4cWFwZHR3MXc1NDRLIjtzOjIxOiJwYXNzd29yZF9oYXNoX3NhbmN0dW0iO3M6NjA6IiQyeSQxMCQ4dm1ha3V4clVBbjlkdWlYQmI2YmwuSGVWVnJnTG41OEhFeEIwbHN5OHFhcGR0dzF3NTQ0SyI7czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6Mzk6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9nZXN0aW9uSW52ZW50YXJpbyI7fX0=', 1608298436);
+('HD2Gy3YBJlMrvFuAb3u3ss8IKltpGeHOJQp1Dq6C', 1, '127.0.0.1', 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/87.0.4280.88 Safari/537.36', 'YTo2OntzOjY6Il90b2tlbiI7czo0MDoibEtReFZLd3BpQnV5Rk1lNjNQR0xzVzVkSUtQNzM2NTZta3U0NWlvcyI7czo2OiJfZmxhc2giO2E6Mjp7czozOiJvbGQiO2E6MDp7fXM6MzoibmV3IjthOjA6e319czo5OiJfcHJldmlvdXMiO2E6MTp7czozOiJ1cmwiO3M6NDM6Imh0dHA6Ly8xMjcuMC4wLjE6ODAwMC9nZXN0aW9uQXJ0aWN1bG9zL21lbnUiO31zOjUwOiJsb2dpbl93ZWJfNTliYTM2YWRkYzJiMmY5NDAxNTgwZjAxNGM3ZjU4ZWE0ZTMwOTg5ZCI7aToxO3M6MTc6InBhc3N3b3JkX2hhc2hfd2ViIjtzOjYwOiIkMnkkMTAkOHZtYWt1eHJVQW45ZHVpWEJiNmJsLkhlVlZyZ0xuNThIRXhCMGxzeThxYXBkdHcxdzU0NEsiO3M6MjE6InBhc3N3b3JkX2hhc2hfc2FuY3R1bSI7czo2MDoiJDJ5JDEwJDh2bWFrdXhyVUFuOWR1aVhCYjZibC5IZVZWcmdMbjU4SEV4QjBsc3k4cWFwZHR3MXc1NDRLIjt9', 1608314455);
 
 -- --------------------------------------------------------
 

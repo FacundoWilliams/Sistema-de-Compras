@@ -14,12 +14,25 @@ use App\Http\Controllers\GestionProveedoresController;
 use App\Http\Controllers\GestionSolicitudComprasController;
 use App\Http\Controllers\GestionPresupuestosController;
 use App\Http\Controllers\PDFController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 Route::get('/', function () {
     return view('/auth/login');
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('inicio', function () {
+    /*$usuario='';
+    $isresp=DB::table('usuarios_roles')
+    ->where('usuario_roles.UsuarioID',Auth::id())
+    $isadm=DB::table('usuarios_roles')
+
+    $isdire=DB::table('usuarios_roles')
+
+    $isSU=DB::table('usuarios_roles')
+
+    */
+
     return view('/gestionCompras/menucompras');
 })->name('dashboard');
 

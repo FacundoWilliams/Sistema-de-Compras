@@ -4,10 +4,11 @@
             {{ __('Gestión de Permisos') }}
         </h2>
     </x-slot>
-    <div class="col-5">
-              <a class="btn btn-danger" href="{{route('gestionUsuarios')}}" role="button">Atras</a>
-            </div> 
+    
     <div class="container-lg mx-auto mt-2">
+      <div class="col-5">
+              <a class="btn btn-danger" href="{{route('gestionUsuarios')}}" role="button">Atras</a>
+      </div> 
         <div class="d-flex justify-content-center"> 
           <a class="btn btn-primary" href="{{route('permiso.registro')}}" role="button">Alta de Permiso</a>
         </div>      
