@@ -73,7 +73,7 @@ class GestionPersonasController extends Controller
     }
 
     public function eliminar(Request $request){
-        $this->authorize('eliminar', Persona::class);
+        $this->authorize('baja', Persona::class);
         DB::table('personas')
         ->where('personas.legajo',$request->legajo)       
         ->update(['Activo'=> 0]);   
