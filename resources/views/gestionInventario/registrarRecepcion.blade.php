@@ -13,13 +13,30 @@
         </div>
 
         <div class="container-lg sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">
+          @if (session('success'))
+            <div class="alert alert-success" role="success">
+              <strong>{{ session('success') }}</strong>
+              <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>       
+            @endif
+            @if (session('error'))
+            <div class="alert alert-danger" role="alert">
+              <strong>{{ session('error') }}</strong>
+              <button type="button" class="close" data-dismiss="alert" alert-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+          @endif  
+
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
                     <tr class="bg-blue-50">           
-                        <th class="text-center w-2">ID</th>
-                        <th class="w-40">Artículo</th>          
-                        <th class="text-center w-12">Stock</th>                                                
-                        <th class="text-center w-32">Acción</th>                     
+                        <th class="text-center" style="width:1%">ID</th>
+                        <th class="text-center" style="width:40%">Artículo</th>          
+                        <th class="text-center" style="width:10%">Stock</th>                                                
+                        <th class="text-center" style="width:10%">Acción</th>                     
                     </tr>
                 </thead>
                 <tbody>
@@ -27,7 +44,7 @@
                   @if ( $a->Activo == 1 )
                     <tr>                
                         <td class="text-center">{{$a->ArticuloID}}</td>                        
-                        <td>{{$a->Descripcion}}</td>                 
+                        <td class="text-center">{{$a->Descripcion}}</td>                 
                         <td class="text-center">{{$a->Stock_disponible}}</td>             
                         <td class="text-center">
                             <!-- Boton trigger modal Registrar-->
@@ -75,7 +92,7 @@
             </div>  
             <div class="col">
                 <label for="#ajuste" class="ml-4">Valor de Ajuste</label>
-                <input class="form-control ml-4" type="number" id="ajuste" name="ajuste" min="0" max="100">  
+                <input class="form-control ml-4" type="number" id="ajuste" name="ajuste" min="1" max="100">  
               </div>            
           </div> 
         </div>

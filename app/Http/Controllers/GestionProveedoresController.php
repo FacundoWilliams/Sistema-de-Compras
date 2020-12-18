@@ -71,7 +71,7 @@ class GestionProveedoresController extends Controller
         //Se actualizan los datos en la BD
         $proveedor->update();
         //Regresa a la vista de consultas
-        return redirect()->route('gestionProveedores.menu');
+        return redirect()->route('gestionProveedores.menu')->with('success','Proveedor actualizado exitosamente.'); 
     }
 
 

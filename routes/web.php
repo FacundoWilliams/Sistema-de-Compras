@@ -54,10 +54,6 @@ Route::get('/usuario/{usuarioid}/menu_asignar_rol', [GestionUsuariosController::
 Route::get('/usuario/{usuarioid}/menu_desasignar_rol', [GestionUsuariosController::class, 'verDesasignarRol'])->name('usuario.verDesasignarRol');
 Route::post('/usuario/{usuarioid}/asignar_roles', [GestionUsuariosController::class, 'asignarRoles'])->name('usuario.asignarRoles');
 Route::post('/usuario/usuarioid/{usuarioid}/desasignar_roles', [GestionUsuariosController::class, 'desasignarRoles'])->name('usuario.desasignarRoles');
-//Route::post('/usuarios', [GestionUsuariosController::class, 'store'])->name('usuario.store');
-//Route::delete('/usuarios/{usuario}', [GestionUsuariosController::class, 'destroy'])->name('usuario.baja');
-//Route::put('/usuarios/{usuario}', [GestionUsuariosController::class, 'update'])->name('usuario.modificacion');
-//Route::get('/usuarios/consulta', UsuarioComponent::class)->name('usuario.consulta'); 
 
 
 //Personas--------------------------------------------------------------------------------------------------------------

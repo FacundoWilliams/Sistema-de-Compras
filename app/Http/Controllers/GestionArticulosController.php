@@ -119,19 +119,13 @@ class GestionArticulosController extends Controller
        //validar que este autorizado para la consulta
        $this->authorize('baja', Articulo::class);
 
-
-      $articulo = DB::table('articulos')
-      ->join('articulo_proveedor','articulos.ArticuloID','=','articulo_proveedor.ArticuloID')
+   
+      DB::table('articulos')
+      //->join('articulo_proveedor','articulos.ArticuloID','=','articulo_proveedor.ArticuloID')
       ->where('articulos.ArticuloID',$request->id)
       ->where('articulos.Activo',1)
-      ->get();
-
-      return $articulo;
-
-      $articulo->Activo=0;
-      //Se guardan los datos en la BD
-      $articulo->update();
-      //Regresa a la vista de consultas
+      ->update(['Activo'=> 0]); 
+      
       return redirect()->route('gestionArticulos.menu')->with('success','Artículo eliminado exitosamente');
    }
 
@@ -244,7 +238,7 @@ class GestionArticulosController extends Controller
       //Se actualizan los datos en la BD
       $articulo->update();
       //Regresa a la vista de punto de pedido
-      return redirect()->route('gestionInventario.puntoPedido');    
+      return redirect()->route('gestionInventario.puntoPedido')->with('success','Punto de pedido establecido exitosamente.');    
    }
 
     
@@ -255,17 +249,19 @@ class GestionArticulosController extends Controller
    * stock disponible del articulo con el valor recicibo de ajuste.
    */
    public function ajustar(Request $request){   
-       //validar que este autorizado para la Vinculacion de Artículos
-       $this->authorize('modificar', Articulo::class);        
+      //validar que este autorizado para la Vinculacion de Artículos
+      $this->authorize('modificar', Articulo::class);        
       $articulo = Articulo::find($request->id);      
+      if($articulo->Stock_disponible == 0 && $request->ajuste < 0)
+         return redirect()->route('gestionInventario.ajustarInventario')->with('error','No es posible registrar el ajuste porque el artículo está agotado.');
       $articulo->Stock_disponible += $request->ajuste;         
       //Se actualizan los datos en la BD
       $articulo->update();      
       // Regresa a la vista de ajuste de inventario si se encontraba en ella, de lo contrario regresa a la vista de recepción de articulos 
       if ($request->ajuste < 0) {
-         return redirect()->route('gestionInventario.ajustarInventario'); 
+         return redirect()->route('gestionInventario.ajustarInventario')->with('success','Ajuste registrado exitosamente.');
       } else {
-         return redirect()->route('gestionInventario.registrarRecepcion'); 
+         return redirect()->route('gestionInventario.registrarRecepcion')->with('success','Ajuste registrado exitosamente.');
       }        
    }
 

@@ -30,13 +30,13 @@
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
                     <tr class="bg-blue-50">           
-                        <th class="text-center w-1">ID</th>                      
-                        <th class="w-32">Razon Social</th>                        
-                        <th class="text-center w-20">Direccion</th>
-                        <th class="text-center w-20">Localidad</th>                                                  
-                        <th class="text-center w-20">Provincia</th> 
-                        <th class="text-center w-12">Telefono</th>  
-                        <th class="text-center w-20">Acciones</th>  
+                        <th class="text-center" style="width:1%">ID</th>                      
+                        <th class="text-center" style="width:20%">Razon Social</th>                        
+                        <th class="text-center" style="width:20%">Direccion</th>
+                        <th class="text-center" style="width:15%">Localidad</th>                                                  
+                        <th class="text-center" style="width:15%">Provincia</th> 
+                        <th class="text-center" style="width:10%">Telefono</th>  
+                        <th class="text-center" style="width:25%">Acciones</th>  
                     </tr>
                 </thead>
                 <tbody>                    
@@ -44,8 +44,8 @@
                   @if ( $p->Activo == 1 )
                     <tr>                
                         <td class="text-center">{{$p->ProveedorID}}</td>                                                
-                        <td>{{$p->Razon_social}}</td>
-                        <td>{{$p->Direccion}}</td>
+                        <td class="text-center">{{$p->Razon_social}}</td>
+                        <td class="text-center">{{$p->Direccion}}</td>
                         <td class="text-center">{{$p->Localidad}}</td>                  
                         <td class="text-center">{{$p->Provincia}}</td>
                         <td class="text-center">{{$p->Telefono}}</td>  
@@ -99,19 +99,19 @@
             <div class="form-group row">        
                 <div class="col">       
                     <label for="#nombre">Nombre</label>              
-                    <input class="form-control" type="text" id="nombre" name="nombre" required>             
+                    <input class="form-control" type="text" id="nombre" name="nombre" pattern="[a-zA-Z ]+" maxlength="50" required>             
                 </div>
             </div>   
             <div class="form-group row">        
                 <div class="col">       
                     <label for="#razon_social">Razón social</label>              
-                    <input class="form-control" type="text" id="razon_social" name="razon_social" required>             
+                    <input class="form-control" type="text" id="razon_social" name="razon_social" pattern="[a-zA-Z0-9 ]+" maxlength="50"required>             
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
                     <label for="#cuit">CUIT</label>
-                    <input class="form-control" type="text" id="cuit" name="cuit" required>              
+                    <input class="form-control" type="text" id="cuit" name="cuit" pattern="[0-9]+" maxlength="11" required>              
                 </div>                   
                 <div class="col">            
                     <label for="#iva">IVA</label>
@@ -127,13 +127,13 @@
             <div class="form-group row">     
                 <div class="col">
                     <label for="#direccion">Dirección</label>
-                    <input class="form-control" type="text" id="direccion" name="direccion" required>  
+                    <input class="form-control" type="text" id="direccion" name="direccion" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>  
                 </div> 
             </div>
             <div class="form-group row"> 
                 <div class="col-md-4">
                     <label for="#telefono">Telefono</label>
-                    <input class="form-control" type="text" id="telefono" name="telefono" required>  
+                    <input class="form-control" type="text" id="telefono" name="telefono" pattern="[0-9]+" maxlength="20" required>  
                 </div>
                 <div class="col">
                     <label for="#mail">E-mail</label>
@@ -143,11 +143,11 @@
             <div class="form-group row"> 
                 <div class="col">
                     <label for="#localidad">Localidad</label>
-                    <input class="form-control" type="text" id="localidad" name="localidad" required>  
+                    <input class="form-control" type="text" id="localidad" name="localidad" pattern="[a-zA-Z0-9 ]+" maxlength="25" required>  
                 </div>            
                 <div class="col">
                     <label for="#provincia">Provincia</label>
-                    <input class="form-control" type="text" id="provincia" name="provincia" required>  
+                    <input class="form-control" type="text" id="provincia" name="provincia" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>  
                 </div> 
             </div> 
         </div>
@@ -207,19 +207,19 @@
                 <div class="col">
                     <input class="form-control" type="hidden" id="id" name="id">                                      
                     <label for="#nombre">Nombre</label>              
-                    <input class="form-control" type="text" id="nombre" name="nombre" required>             
+                    <input class="form-control" type="text" id="nombre" name="nombre" pattern="[a-zA-Z ]+" maxlength="25" required>             
                 </div>
             </div>   
             <div class="form-group row">        
                 <div class="col">       
                     <label for="#razon_social">Razón social</label>              
-                    <input class="form-control" type="text" id="razon_social" name="razon_social" required>             
+                    <input class="form-control" type="text" id="razon_social" name="razon_social" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>             
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col">
                     <label for="#cuit">CUIT</label>
-                    <input class="form-control" type="text" id="cuit" name="cuit" required>              
+                    <input class="form-control" type="text" id="cuit" name="cuit" pattern="[0-9]+" maxlength="11" required>              
                 </div>                   
                 <div class="col">            
                     <label for="#iva">IVA</label>
@@ -235,13 +235,13 @@
             <div class="form-group row">     
                 <div class="col">
                     <label for="#direccion">Dirección</label>
-                    <input class="form-control" type="text" id="direccion" name="direccion" required>  
+                    <input class="form-control" type="text" id="direccion" name="direccion" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>  
                 </div> 
             </div>
             <div class="form-group row"> 
                 <div class="col-md-4">
                     <label for="#telefono">Telefono</label>
-                    <input class="form-control" type="text" id="telefono" name="telefono" required>  
+                    <input class="form-control" type="text" id="telefono" name="telefono" pattern="[0-9]+" maxlength="20" required>  
                 </div>
                 <div class="col">
                     <label for="#mail">E-mail</label>
@@ -251,11 +251,11 @@
             <div class="form-group row"> 
                 <div class="col">
                     <label for="#localidad">Localidad</label>
-                    <input class="form-control" type="text" id="localidad" name="localidad" required>  
+                    <input class="form-control" type="text" id="localidad" name="localidad" pattern="[a-zA-Z ]+" maxlength="25" required>  
                 </div>            
                 <div class="col">
                     <label for="#provincia">Provincia</label>
-                    <input class="form-control" type="text" id="provincia" name="provincia" required>  
+                    <input class="form-control" type="text" id="provincia" name="provincia"  pattern="[a-zA-Z ]+" maxlength="50"required>  
                 </div> 
             </div> 
         </div>

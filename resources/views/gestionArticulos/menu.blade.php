@@ -30,15 +30,15 @@
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
                     <tr class="bg-blue-50">           
-                        <th class="text-center w-2">ID</th>
-                        <th class="w-40">Artículo</th>
-                        <th class="text-center w-20">Embalaje</th> 
+                        <th class="text-center" style="width:1%">ID</th>
+                        <th class="text-center" style="width:40%">Artículo</th>
+                        {{--<th class="text-center w-20">Embalaje</th> 
                         <th class="text-center w-12">U. de medida</th> 
-                        <th class="text-center w-12">U. por bulto</th>
-                        <th class="text-center w-12">Punto pedido</th>                            
-                        <th class="text-center w-10">Stock</th>  
-                        <th class="text-center w-32">Acciones</th>  
-                        <th class="text-center w-40">Proveedores</th>  
+                        <th class="text-center w-12">U. por bulto</th>--}}
+                        <th class="text-center" style="width:5%">Punto pedido</th>                            
+                        <th class="text-center" style="width:5%">Stock</th>  
+                        <th class="text-center" style="width:15%">Acciones</th>  
+                        <th class="text-center" style="width:20%">Proveedores</th>  
                     </tr>
                 </thead>
                 <tbody>
@@ -46,10 +46,10 @@
                   @if ( $a->Activo == 1 )
                     <tr>                
                         <td class="text-center">{{$a->ArticuloID}}</td>                        
-                        <td>{{$a->Descripcion}}</td>
-                        <td>{{$a->Tipo_embalaje}}</td>
+                        <td class="text-center">{{$a->Descripcion}}</td>
+                        {{--<td>{{$a->Tipo_embalaje}}</td>
                         <td>{{$a->Unidad_medida}}</td>
-                        <td class="text-center">{{$a->Unidad_bulto}}</td>
+                        <td class="text-center">{{$a->Unidad_bulto}}</td>--}}
                         <td class="text-center">{{$a->Punto_pedido}}</td>  
                         <td class="text-center">{{$a->Stock_disponible}}</td>  
                         <td class="text-center">
@@ -133,7 +133,7 @@
           <div class="col">
             <input class="form-control" type="hidden" id="id" name="id">   
             <label for="#descripcion">Descripcion</label>              
-            <input class="form-control" type="text" id="descripcion" name="descripcion" required>             
+            <input class="form-control" type="text" id="descripcion" name="descripcion" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>             
           </div>
         </div>   
         <div class="form-group row">
@@ -198,7 +198,7 @@
         <div class="form-group row">        
           <div class="col">       
             <label for="#descripcion">Descripcion</label>              
-            <input class="form-control" type="text" id="descripcion" name="descripcion" required>             
+            <input class="form-control" type="text" id="descripcion" name="descripcion" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>             
           </div>
         </div>   
         <div class="form-group row">

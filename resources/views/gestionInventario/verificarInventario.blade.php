@@ -16,11 +16,11 @@
             <table id="example" class="table table-hover table-bordered" style="width:100%">
                 <thead>         
                     <tr class="bg-blue-50">           
-                        <th class="text-center w-2">ID</th>
-                        <th class="w-40">Artículo</th>          
-                        <th class="text-center w-12">Stock</th> 
-                        <th class="text-center w-12">Punto Pedido</th>  
-                        <th class="text-center w-12">Excedente</th>                                                                      
+                        <th class="text-center" style="width:1%">ID</th>
+                        <th class="text-center" style="width:40%">Artículo</th>          
+                        <th class="text-center" style="width:10%">Stock</th> 
+                        <th class="text-center" style="width:10%">Punto Pedido</th>  
+                        <th class="text-center" style="width:10%">Excedente</th>                                                                      
                     </tr>
                 </thead>
                 <tbody>

@@ -60,7 +60,7 @@ class GestionSectoresController extends Controller
         DB::table('sectores')
         ->where('sectores.SectorID',$request->id)       
         ->update(['Activo'=> 0]);   
-        return redirect()->route('personas.menu')->with('success','Sector eliminado exitosamente');
+        return redirect()->route('sector.menu')->with('success','Sector eliminado exitosamente');
     }
 
 }
