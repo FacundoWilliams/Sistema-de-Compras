@@ -29,9 +29,9 @@
             <div class="block mt-4">
                 @if (Route::has('password.request'))
                 <div class="mb-4">
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
+                    {{--<a class="underline text-sm text-gray-600 hover:text-gray-900" href="{{ route('password.request') }}">
                         {{ __('Recuperar password') }}
-                    </a>
+                    </a>--}}
                 @endif
                 </div>
                 <label for="remember_me" class="flex items-center">

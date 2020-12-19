@@ -8,17 +8,17 @@ use App\Models\Estado_Solicitud_Compras;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Validation\Rules\NotIn;
 
 class GestionSolicitudComprasController extends Controller
 {
  
    public function index(){
-       //validar que este autorizado para la Consulta
-       $this->authorize('consultar', Solicitud_Compras::class);
+      //validar que este autorizado para la Consulta
+      $this->authorize('consultar', Solicitud_Compras::class);
       $solicitudes = DB::table('solicitud_compras')
       ->join('estados_solicitud_compras','estados_solicitud_compras.SolicitudCompraID','=','solicitud_compras.SolicitudCompraID')
-      ->where('EstadoID','Pendiente')->get();
+      ->where('EstadoID','Pendiente')
+      ->get();     
       return view('/gestionCompras/solicitudCompras/menu')
       ->with('solicitudes' ,$solicitudes);  
    } 

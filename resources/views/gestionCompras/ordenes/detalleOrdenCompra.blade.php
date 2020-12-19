@@ -70,10 +70,7 @@
                           Rechazar
                       </button>
                     </div>                    
-                    @endif
-                    <div class="col-md-2 ml-2">
-                      <a class="btn btn-info" href='' role="button">Descargar PDF</a>
-                    </div> 
+                    @endif                  
                  
                 </div>                                     
               <table id="example" class="table table-hover table-bordered mt-3" style="width:100%">
