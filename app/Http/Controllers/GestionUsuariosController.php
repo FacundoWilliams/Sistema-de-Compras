@@ -141,20 +141,5 @@ class GestionUsuariosController extends Controller
         ->with('roles' ,$rol)
         ->with('usuarioid' ,$usuarioid);
     }
-
-    //Los metodos siguientes no son necesarios. 
-    /*public function index(){
-        //validar que sea Super_Usuario
-        $this->authorize('consultar', User::class);
-        return view('/gestionUsuarios/menuUsuarios');
-    }*/
-
-    /*public function show(){
-        //validar que sea Super_Usuario
-        $this->authorize('consultar', User::class);
-        $usuarios = User::paginate();
-        return view('/gestionUsuarios/usuarios/consulta',compact('usuarios'));
-    }*/
-
     
 }

@@ -67,6 +67,7 @@ Route::put('/persona/eliminar', [GestionPersonasController::class, 'eliminar'])-
 Route::get('/permisos/alta',[GestionPermisosController::class,'registro'])->name('permiso.registro');
 Route::post('/permisos/registrar',[GestionPermisosController::class,'store'])->name('permiso.store');
 Route::get('/permisos/menu',[GestionPermisosController::class,'index'])->name('permiso.menu');
+Route::put('/permisos/eliminar', [GestionPermisosController::class, 'eliminar'])->name('permiso.eliminar');
 
 //Roles--------------------------------------------------------------------------------------------------------------
 Route::get('/roles/alta',[GestionRolesController::class,'registro'])->name('rol.registro');

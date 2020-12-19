@@ -61,13 +61,7 @@
                     </tr>                                                     
                 @endforeach                           
                 </tbody>         
-              </table> 
-              <div class="row justify-content-end">
-                <div class="col-md-3 mt-2 mr-4 border-2 border-grey-700">
-                  <label for="#total">Total</label> 
-                  <h3 class="text-grey-800" name="total">$ {{$prove[0]->Total}}</h3>
-                </div>                        
-              </div>                   
+              </table>                  
         </div> 
     
     </div>

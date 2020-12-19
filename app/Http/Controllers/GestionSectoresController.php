@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Sector;
+use App\Models\Persona;
 use Illuminate\Support\Facades\DB;
 
 
@@ -28,15 +29,19 @@ class GestionSectoresController extends Controller
         $sector->persona_a_cargo=$request->persona;
        
         //Se guardan los datos en la BD si el legajo de la persona no existe
-        $existe =  Sector::find($request->id);
-        if($existe == NULL){
-            try{
-                $sector->save();
-                //Regresa a la vista de consultas
-                return redirect()->route('sector.menu')->with('success','Sector registrado exitosamente');
-            }catch(\Exception $e){
-                return redirect()->route('sector.menu')->with('error','Error al intentar registrar sector. Datos inválidos ' +$e);            
-            }
+        $existe_sector =  Sector::find($request->id);        
+        if($existe_sector == NULL){
+            $existe_persona = Persona::find($request->persona);
+            if($existe_persona != NULL){
+                try{
+                    $sector->save();
+                    //Regresa a la vista de consultas
+                    return redirect()->route('sector.menu')->with('success','Sector registrado exitosamente');
+                }catch(\Exception $e){
+                    return redirect()->route('sector.menu')->with('error','Error al intentar registrar sector. Datos inválidos ' +$e);            
+                }
+            }else
+                return redirect()->route('sector.menu')->with('error','El identificador de la persona no existe.');   
         }
         return redirect()->route('sector.menu')->with('error','El identificador del sector ya existe.');   
         

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Permiso;
+use Illuminate\Support\Facades\DB;
 
 
 class GestionPermisosController extends Controller
@@ -29,6 +30,15 @@ class GestionPermisosController extends Controller
        $permiso->PathAuth=$request->opcion;
        //Se guardan los datos en la BD
        $permiso->save();
+       return redirect()->route('permiso.menu')->with('success','Permiso registrado exitosamente.');            
+    }
 
+    public function eliminar(Request $request){
+        //validar que sea Super_Usuario
+        $this->authorize('alta', Persona::class);
+        DB::table('permisos')
+        ->where('PermisoID',$request->id)
+        ->delete();
+        return redirect()->route('permiso.menu')->with('success','Permiso eliminado exitosamente.');            
     }
 }
