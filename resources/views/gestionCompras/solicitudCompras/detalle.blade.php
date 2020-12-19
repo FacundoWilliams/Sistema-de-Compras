@@ -22,9 +22,12 @@
   </div>
   
   <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-4 p-3 bg-white">
-      <div class="d-flex justify-content-center"> 
-        <a class="btn btn-primary" href="{{route('compras.solicitudCompra.editar',$solicitud)}}" role="button">Editar Detalles</a>
-      </div>
+    @if($estado=='Pendiente')
+          <div class="d-flex justify-content-center"> 
+            <a class="btn btn-primary" href="{{route('compras.solicitudCompra.editar',$solicitud)}}" role="button">Editar Detalles</a>
+          </div>
+    @endif
+        
     <table id="example" class="table table-hover table-bordered" style="width:100%">
           <thead>         
               <tr class="bg-blue-50">

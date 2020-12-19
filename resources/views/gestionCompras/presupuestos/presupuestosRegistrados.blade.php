@@ -10,11 +10,11 @@
         <a class="btn btn-danger" href="{{route('compras.presupuestos')}}" role="button">Atras</a>
       </div>     
       <div class="col-sm-5 overflow-hidden shadow-md sm:rounded-lg bg-white p-2">  
-        <h3 class="text-center">Solicitud de Compra Nº: {{$solCompra[0]->SolicitudCompraID}}</h3>
+        <h3 class="text-center">Solicitud de Compra Nº: {{$solCompra->SolicitudCompraID}}</h3>
         <br>
-        <h5 class="text-grey-500">Estado: {{$solCompra[0]->EstadoID}}</h5>
-        <h5 class="text-grey-500">Fecha de creación: {{$solCompra[0]->FechaHora}}</h5>
-        <h5 class="text-grey-500">Creada por: {{$solCompra[0]->name}}</h5>
+        <h5 class="text-grey-500">Estado: {{$solCompra->EstadoID}}</h5>
+        <h5 class="text-grey-500">Fecha de creación: {{$solCompra->FechaHora}}</h5>
+        <h5 class="text-grey-500">Creada por: {{$solCompra->name}}</h5>
       </div> 
   </div> 
   

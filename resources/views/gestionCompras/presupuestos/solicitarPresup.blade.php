@@ -23,7 +23,7 @@
     </div> 
     @endif 
     <div class="alert alert-warning" role="alert">
-      <strong>Si no visualiza Articulos se debe a que no estan Activos o no tienen Proveedores Vinculados</strong>
+      <strong>Si no visualiza Detalles se debe a que ya fueron solicitados.</strong>
       <button type="button" class="close" data-dismiss="alert" alert-label="Close">
       <span aria-hidden="true">&times;</span>
       </button>

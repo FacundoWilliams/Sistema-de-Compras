@@ -119,8 +119,16 @@ class GestionSolicitudComprasController extends Controller
       $fecha = DB::table('solicitud_compras')
       ->where('SolicitudCompraID',$request->id)->value('FechaRegistro');      
 
-      $estado = DB::table('estados_solicitud_compras')
-      ->where('SolicitudCompraID',$request->id)->value('EstadoID');
+      
+      $estados_sol = DB::table('estados_solicitud_compras')
+      ->where('SolicitudCompraID',$request->id)->get();
+      $estado='Pendiente';
+      
+      if(count($estados_sol)>1){
+         $estado='Procesado';
+      }
+
+
       
       $usuarioID = DB::table('estados_solicitud_compras')
       ->where('SolicitudCompraID',$request->id)->value('ResponsableID');

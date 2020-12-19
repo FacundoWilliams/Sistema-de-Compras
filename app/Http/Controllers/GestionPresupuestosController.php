@@ -231,11 +231,16 @@ class GestionPresupuestosController extends Controller
       $detalle = DB::table('deta_soli_presu')
       ->join('articulos','deta_soli_presu.ArtiID','=','articulos.ArticuloID')
       ->where('SoliPresuID',$idSol)->get();
+
+      $prove=DB::table('proveedores')
+      ->where('proveedores.ProveedorID',$detalle[0]->ProveID)->value('Razon_social');
     
       return view('/gestionCompras/presupuestos/detalle')
       ->with('sol',$idSol)
       ->with('solicitud',$sol[0])
-      ->with('detalle',$detalle);
+      ->with('detalle',$detalle)
+      ->with('rz',$prove);
+
     }
 
     /**
@@ -368,11 +373,19 @@ class GestionPresupuestosController extends Controller
       ->join('users','users.id','=','estados_solicitud_compras.ResponsableID')
       ->where('solicitud_compras.SolicitudCompraID',$idSol)
       ->get();
+
+      
+
+      if(count($solCompra)>1){
+        $sol_env=$solCompra[1];
+      }else{
+        $sol_env=$solCompra[0];
+      }
     
       //Se retorna a la vista con los datos recuperados
       return view('/gestionCompras/presupuestos/presupuestosRegistrados')
       ->with('presu_regi',$presu_regi)
-      ->with('solCompra',$solCompra);
+      ->with('solCompra',$sol_env);
     }
 
     /**

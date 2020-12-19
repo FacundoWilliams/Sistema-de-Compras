@@ -40,7 +40,7 @@
                   <input type="hidden" name="ids[]" value="{{$a->ArticuloID}}" >
                   <td class="id">{{$a->ArticuloID}}</td>
                   <td>{{$a->Descripcion}}</td>                      
-                  <td><input type="number" name="cantidades[] "></td>
+                  <td><input type="number" name="cantidades[]" min="0" max="100"></td>
                   <td><input type="date" name="fechas[]" min={{date("Y-n-j")}}></td>
               </tr>                                   
             @endforeach                  

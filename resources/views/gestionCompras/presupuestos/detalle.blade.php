@@ -13,14 +13,12 @@
                 <h3 class="text-center">Solicitud de Presupuesto Nº: {{$sol}}</h3>
                 <h5 class="text-center">Creada por: {{$solicitud->name}}</h5>
                 <h5 class="text-center">Fecha: {{$solicitud->FechaRegistro}}</h5>
-                <h5 class="text-center">Proveedor: </h5>
+                <h5 class="text-center">Proveedor:{{$rz}} </h5>
             </div> 
         </div> 
     
       <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">         
-            <div class="d-flex justify-content-center"> 
-                <a href="{{route('descargarSolPresuPDF',$sol)}}"  class="btn btn-info" role="button">Descargar PDF</a>
-            </div>
+            
           <table id="example" class="table table-hover table-bordered mt-2" style="width:100%">
               <thead>         
                   <tr class="bg-blue-50">      
