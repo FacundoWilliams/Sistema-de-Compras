@@ -79,5 +79,25 @@ class GestionPersonasController extends Controller
         ->update(['Activo'=> 0]);   
         return redirect()->route('personas.menu')->with('success','Persona eliminada exitosamente');
     }
+
+    public function verActivarPersonas(){
+        $this->authorize('alta', Persona::class);
+        
+        $personas = Persona::all()
+        ->where('Activo',0);
+        return view('gestionUsuarios/personas/activarPersonas')
+        ->with('personas',$personas);  
+    }
+
+    public function activarPersonas(Request $request){
+        $this->authorize('alta', Persona::class);
+        
+        foreach($request->personas as $p){
+            DB::table('personas')
+            ->where('personas.legajo',$p)       
+            ->update(['Activo'=> 1]);
+        }
+        return $this->menu(); 
+    }
     
 }

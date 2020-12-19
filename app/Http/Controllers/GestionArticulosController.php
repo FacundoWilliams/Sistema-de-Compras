@@ -265,7 +265,25 @@ class GestionArticulosController extends Controller
       }        
    }
 
-     
+   public function verActivarArticulos(){
+      $this->authorize('alta', Articulo::class);
+      
+      $articulos = Articulo::all()
+      ->where('Activo',0);
+      return view('gestionArticulos/articulos/activarArticulos')
+      ->with('articulos',$articulos);  
+  }
+
+  public function activarArticulos(Request $request){
+      $this->authorize('alta', Articulo::class);
+      
+      foreach($request->articulos as $a){
+          DB::table('articulos')
+          ->where('articulos.ArticuloID',$a)       
+          ->update(['Activo'=> 1]);
+      }
+      return $this->menu(); 
+  }
 
 }
 

@@ -1,59 +1,42 @@
 <x-app-layout>
   <x-slot name="header">
     <h2 class="font-bold text-xl text-blue-800 leading-tight">
-        {{ __('Seleccionar Articulos a Solicitar') }}
+        {{ __(' Activar Personas') }}
     </h2>
   </x-slot>
 
-  <div class="container h-auto mx-auto mt-4">
-    <div class="row">
-      <div class="col-4">
-        <a class="btn btn-danger" href="{{route('compras.solicitudCompras')}}" role="button">Atras</a>
-      </div>       
-      <div class="col-sm-4 overflow-hidden shadow-md sm:rounded-lg bg-white">  
-          <h3 class="text-center">Solicitud de Compra:</h3>
-          {{--<p class="text-center">ID {{$soli->SolicitudCompraID}}</p>--}}  
-          <p class="text-center">Fecha: {{ getdate()['year'].'-'.getdate()['mon'].'-'.getdate()['mday']}}</p> 
-      </div> 
-    </div> 
-  </div>
-
-  <form id="frm-example" action="{{route('compras.solicitudCompra.cantArticulos')}}" method="POST">
+<div class="container h-auto sm:rounded-md shadow-md mx-auto mt-4 p-3 bg-white">  
+    <div class="col-4">
+      <a class="btn btn-danger" href="{{route('personas.menu')}}" role="button">Atras</a>
+    </div>
+   
+  <form id="frm-example" action="{{route('persona.activarPersonas')}}" method="POST">
     @csrf 
-  <div class="container h-auto sm:rounded-md shadow-md mx-auto mt-4 p-3 bg-white">
-    <div class="alert alert-warning" role="alert">
-      <strong>Si no visualiza Articulos se debe a que no estan Activos o no tienen Proveedores Vinculados</strong>
-      <button type="button" class="close" data-dismiss="alert" alert-label="Close">
-      <span aria-hidden="true">&times;</span>
-      </button>
-    </div>       
     <div class="d-flex justify-content-center mt-3"> 
-      <button type="submit" class="btn btn-primary">Aceptar</button>
+      <button type="submit" class="btn btn-primary">Activar Seleccionados</button>
     </div>  
     <table id="example" class="table table-hover table-bordered" style="width:100%">
           <thead>         
               <tr class="bg-blue-50">
                 <th><input name="select_all" value="1" type="checkbox"></th>  
-                  <th>ID</th>
-                  <th>Descripción</th>
-                  {{--<th class="text-center">Seleccionar</th>            --}}
+                  <th>Legajo</th>
+                  <th>Nombre</th>
+                  <th>Apellido</th>
               </tr>
           </thead>
           <tbody>
-            @foreach ($articulos as $a) 
-            @if ( $a->Activo == 1 )
+            @foreach ($personas as $p) 
               <tr>
                 <th></th>
-                  <td>{{$a->ArticuloID}}</td>
-                  <td>{{$a->Descripcion}}</td>
-                  {{--<td class="text-center"><input type="checkbox" id="{{$a->ArticuloID}}" name="ArticulosID[]" value="{{$a->ArticuloID}}"></td>            --}}
-              </tr>                
-              @endif                   
+                  <td>{{$p->Legajo}}</td>
+                  <td>{{$p->Nombre}}</td>
+                  <td>{{$p->Apellido}}</td>
+              </tr>                                
             @endforeach                  
           </tbody>         
-        </table>                      
-  </div>    
+        </table>                          
 </form> 
+</div>
 
 </x-app-layout>
 
@@ -197,7 +180,7 @@
           $(form).append(
             $('<input>')
               .attr('type', 'hidden')
-              .attr('name', 'id[]')
+              .attr('name', 'personas[]')
               .val(rowId)
           );
         });

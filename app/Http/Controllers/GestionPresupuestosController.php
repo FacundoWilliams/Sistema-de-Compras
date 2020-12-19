@@ -94,7 +94,6 @@ class GestionPresupuestosController extends Controller
           $i++;
         }
       }
-      return $art;
       return view('/gestionCompras/presupuestos/solicitarPresup')
       ->with('artSolicitados' ,$art)
       ->with('solicitud', $solicitud);

@@ -61,6 +61,8 @@ Route::get('/personas/menu', [GestionPersonasController::class, 'menu'])->name('
 Route::post('/personas/registro', [GestionPersonasController::class, 'store'])->name('persona.registro');
 Route::put('/persona/editar',[GestionPersonasController::class, 'editar'])->name('persona.editar');
 Route::put('/persona/eliminar', [GestionPersonasController::class, 'eliminar'])->name('persona.eliminar');
+Route::get('/personas/menu_Activar_Personas', [GestionPersonasController::class, 'verActivarPersonas'])->name('persona.verActivarPersonas');
+Route::post('/personas/activar_Personas', [GestionPersonasController::class, 'activarPersonas'])->name('persona.activarPersonas');
 
 
 //Permisos--------------------------------------------------------------------------------------------------------------
@@ -98,6 +100,8 @@ Route::put('/gestionArticulos/editar',[GestionArticulosController::class, 'edita
 Route::put('/gestionArticulos/eliminar',[GestionArticulosController::class, 'eliminar'])->name('gestionArticulos.eliminar');
 Route::post('/gestionaArticulos/alta',[GestionArticulosController::class,'alta'])->name('gestionArticulos.alta'); 
 Route::post('/gestionArticulos/{ArticuloID}/asignarProveedor',[GestionArticulosController::class,'asignarProveedor'])->name('gestionArticulos.asignarProveedor');
+Route::get('/gestionArticulos/menu_Activar_Articulos', [GestionArticulosController::class, 'verActivarArticulos'])->name('gestionArticulos.verActivarArticulos');
+Route::post('/gestionArticulos/activar_Articulos', [GestionArticulosController::class, 'activarArticulos'])->name('gestionArticulos.activarArticulos');
 
 
 
