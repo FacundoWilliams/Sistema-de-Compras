@@ -235,7 +235,7 @@
             <div class="form-group row">     
                 <div class="col">
                     <label for="#direccion">Dirección</label>
-                    <input class="form-control" type="text" id="direccion" name="direccion" pattern="[a-zA-Z0-9 ]+" maxlength="50" required>  
+                    <input class="form-control" type="text" id="direccion" name="direccion"  maxlength="50" required>  
                 </div> 
             </div>
             <div class="form-group row"> 

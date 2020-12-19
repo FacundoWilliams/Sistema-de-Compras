@@ -125,7 +125,7 @@
           <div class="form-group row">        
               <div class="col">       
                 <label for="#name">Nombre</label>              
-                <input class="form-control" type="text" id="name" name="name" pattern="[a-zA-Z]+" maxlength="20" required>             
+                <input class="form-control" type="text" id="name" name="name" pattern="[a-zA-Z0-9]+" maxlength="20" required>             
             </div>
           </div>   
           <div class="form-group row">        
