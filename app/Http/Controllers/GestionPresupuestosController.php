@@ -38,8 +38,17 @@ class GestionPresupuestosController extends Controller
       $fecha = DB::table('solicitud_compras')
       ->where('SolicitudCompraID',$solicitud)->value('FechaRegistro');      
 
-      $estado = DB::table('estados_solicitud_compras')
-      ->where('SolicitudCompraID',$solicitud)->value('EstadoID');
+      $estados = DB::table('estados_solicitud_compras')
+      ->where('SolicitudCompraID',$solicitud)->get();
+      
+      $estado='Pendiente';
+      
+      if(count($estados)>1){
+         $estado='Procesado';
+      }
+
+
+
     
       $solpresupuestos = DB::table('solicitudes_presupuestos')
       ->join('deta_soli_presu','deta_soli_presu.SoliPresuID',"=","SolicitudPresupuestoID")
