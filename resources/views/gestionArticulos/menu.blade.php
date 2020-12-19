@@ -5,15 +5,18 @@
         </h2>
     </x-slot>
 
-    <div class="container-lg mx-auto mt-2">
-        <div class="d-flex justify-content-center"> 
-        <!-- Boton trigger modal alta-->
-          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAlta">Alta de Artículo</button>
-          <!-- Boton Activar Articulos-->
-          <div class="col-4">
-            <a href="{{route('gestionArticulos.verActivarArticulos')}}" class="btn btn-primary">Activar Articulos</a>  
-          </div>  
-        </div>      
+    <div class="container-lg mx-auto mt-2">        
+        <div class="row justify-content-end">
+            <div class="col-3">
+              <!-- Boton trigger modal alta-->
+              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAlta">Alta de Artículo</button>  
+            </div>
+            <div class="col-4">
+              <a href="{{route('gestionArticulos.verActivarArticulos')}}" class="btn btn-secondary">Activar Articulos</a>  
+            </div>  
+          </div> 
+      </div>   
+
         <div class="container-lg sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">
           @if (session('success'))
             <div class="alert alert-success" role="success">

@@ -13,7 +13,9 @@
             <div class="col-4"> 
                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalAlta">Alta de Persona</button>
             </div> 
-            <a href="{{route('persona.verActivarPersonas')}}" class="btn btn-primary">Activar Personas</a>  
+            <div class="col-2">
+                <a href="{{route('persona.verActivarPersonas')}}" class="btn btn-secondary">Activar Personas</a>  
+            </div>
         </div>      
 
         <div class="container-lg sm:rounded-md shadow-md mx-auto mt-2 p-2 bg-white">
