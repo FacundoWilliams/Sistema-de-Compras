@@ -208,6 +208,7 @@ class GestionSolicitudComprasController extends Controller
             ->where('SolicitudCompraID',$solicitud)
             ->where('ArticuloID',$artID)
             ->update(['Cantidad'=>$request->cantidades[$i],'FechaResposicionEstimada'=>$request->fechas[$i]]);
+            $i++;
       }
        return $this->index();
 
